@@ -1,7 +1,9 @@
 import { Application } from 'pixi.js'
 
-import canvas from './canvas'
+
+const canvas = document.getElementById('game') as HTMLCanvasElement
 
 const app = new Application({
+    resizeTo: canvas,
     view: canvas,
 })
