@@ -2,8 +2,10 @@
     "compilerOptions": {
         "allowJs": true,
         "allowSyntheticDefaultImports": true,
+        "baseUrl": "./src/",
         "esModuleInterop": true,
         "module": "CommonJS",
+        "moduleDetection": "force",
         "moduleResolution": "node",
         "noImplicitAny": true,
         "noImplicitReturns": true,

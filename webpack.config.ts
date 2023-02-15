@@ -35,9 +35,13 @@ export default {
     ],
     resolve: {
         extensions: [
-            '.tsx',
-            '.ts',
             '.js',
+            '.ts',
+            '.tsx',
+        ],
+        modules: [
+            resolve(__dirname, 'src'),
+            'node_modules',
         ],
     },
 }

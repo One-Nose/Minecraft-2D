@@ -1,6 +1,5 @@
 import { Application } from 'pixi.js'
-
-import World from './mechanics/world'
+import World from 'world/world'
 
 const canvas = document.getElementById('game') as HTMLCanvasElement
 
@@ -10,6 +9,6 @@ const app = new Application({
     view: canvas,
 })
 
-const world = new World()
+const world = new World(app)
 world.load()
 console.log(world)
