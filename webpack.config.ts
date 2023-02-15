@@ -3,22 +3,18 @@ import { resolve } from 'path'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 
 export default {
-    // // Needed?
-    // devServer: {
-    //     static: './dist/',
-    // },
     devtool: 'eval-source-map',
     entry: './src/index.ts',
     mode: 'development',
     module: {
         rules: [
             {
-                test: /\.ts(x)?$/,
+                test: /\.tsx?$/i,
                 loader: 'ts-loader',
                 exclude: /node_modules/,
             },
             {
-                test: /\.png$/,
+                test: /\.png$/i,
                 type: 'asset/resource',
             },
         ],
