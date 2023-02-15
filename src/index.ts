@@ -1,5 +1,7 @@
 import { Application } from 'pixi.js'
 
+import World from './world'
+
 const canvas = document.getElementById('game') as HTMLCanvasElement
 
 const app = new Application({
@@ -7,3 +9,7 @@ const app = new Application({
     resizeTo: canvas,
     view: canvas,
 })
+
+const world = new World()
+world.load()
+console.log(world)
