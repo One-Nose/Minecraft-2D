@@ -26,10 +26,13 @@ export default class Chunk {
      */
     constructor(world: World) {
         this.blocks = Array.from(Array(64), () => new Row(world))
-        this.container = new Container()
         this.heights = Array(16).fill(0)
         this.loaded = false
         this.world = world
+        
+        this.container = new Container()
+        this.container.visible = false
+        world.app.stage.addChild(this.container)
     }
 
     /**
