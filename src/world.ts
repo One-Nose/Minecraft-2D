@@ -1,34 +1,13 @@
 /**
- * Represents a single world
+ * Represents a block
  */
-export default class World {
-    /** Array of 16 chunks */
-    chunks: Chunk[]
+class Block {
+    id: string
 
-    /** `true` if the world is loaded */
-    loaded: boolean
-
-    /** The world's pseudo-random number generator */
-    prng: PRNG
-
-    constructor() {
-        this.prng = new PRNG()
-
-        this.chunks = Array.from(Array(16), () => new Chunk(this.prng))
-        this.loaded = false
-    }
-
-    /**
-     * Generates the unloaded chunks in the world
-     */
-    load(): void {
-        for (const chunk of this.chunks) {
-            chunk.load()
-        }
-        this.loaded = true
+    constructor(id: string) {
+        this.id = id
     }
 }
-
 
 /**
  * Represents a single chunk consisting of 16x64 blocks
@@ -65,42 +44,6 @@ class Chunk {
         if (!this.loaded) {
             for (const row of this.blocks) {
                 row.load()
-            }
-            this.loaded = true
-        }
-    }
-}
-
-/**
- * Represents a single row of 16 blocks
- */
-class Row {
-    /** An array of 16 blocks */
-    blocks: number[]
-
-    /** `true` if the row is loaded */
-    loaded: boolean
-    
-    /** The row's pseudo-random number generator */
-    prng: PRNG
-
-    /**
-     * @param prng The row's pseudo-random number generator
-     */
-    constructor(prng: PRNG) {
-        this.prng = prng
-
-        this.blocks = Array(16).fill(0)
-        this.loaded = false
-    }
-
-    /**
-     * Generates the blocks in the row if not loaded
-     */
-    load(): void {
-        if (!this.loaded) {
-            for (const y in this.blocks) {
-                this.blocks[y] = this.prng.randBool() ? 0 : 2
             }
             this.loaded = true
         }
@@ -157,4 +100,71 @@ class PRNG {
     random(): number {
         return this.next() / this.MAX_INT
     }
+}
+
+/**
+ * Represents a single row of 16 blocks
+ */
+class Row {
+    /** An array of 16 blocks */
+    blocks: Block[]
+
+    /** `true` if the row is loaded */
+    loaded: boolean
+    
+    /** The row's pseudo-random number generator */
+    prng: PRNG
+
+    /**
+     * @param prng The row's pseudo-random number generator
+     */
+    constructor(prng: PRNG) {
+        this.prng = prng
+
+        this.blocks = Array.from(Array(16), () => new Block('air'))
+        this.loaded = false
+    }
+
+    /**
+     * Generates the blocks in the row if not loaded
+     */
+    load(): void {
+        if (!this.loaded) {
+            for (const block of this.blocks) {
+                block.id = this.prng.randBool() ? 'air' : 'stone'
+            }
+            this.loaded = true
+        }
+    }
+}
+
+/**
+ * Represents a single world 
+ */
+export default class World {
+    /** Array of 16 chunks */
+    chunks: Chunk[]
+
+    /** `true` if the world is loaded */
+    loaded: boolean
+
+    /** The world's pseudo-random number generator */
+    prng: PRNG
+
+    constructor() {
+        this.prng = new PRNG()
+
+        this.chunks = Array.from(Array(16), () => new Chunk(this.prng))
+        this.loaded = false
+    }    
+
+    /**
+     * Generates the unloaded chunks in the world 
+     */
+    load(): void {
+        for (const chunk of this.chunks) {
+            chunk.load()
+        }    
+        this.loaded = true
+    }    
 }
