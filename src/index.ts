@@ -1,14 +1,27 @@
-import { Application } from 'pixi.js'
+import app from 'graphics/app'
+import { initAssets, loadBundle, textures } from 'graphics/assets'
+import * as PIXI from 'pixi.js'
 import World from 'world/world'
+import { registerBlock } from 'blockRegistry'
 
-const canvas = document.getElementById('game') as HTMLCanvasElement
+declare global {
+    var MC: any
+}
 
-const app = new Application({
-    backgroundColor: 0x78A7FF,
-    resizeTo: canvas,
-    view: canvas,
-})
+(async () => {
+    await initAssets()
+    await loadBundle('blocks')
 
-const world = new World(app)
-world.load()
-console.log(world)
+    registerBlock('air', { visible: false })
+    registerBlock('stone')
+
+    const world = new World()
+    world.load()
+
+    globalThis.MC = {
+        app: app,
+        textures: textures,
+        PIXI: PIXI,
+        world: world,
+    }
+})()

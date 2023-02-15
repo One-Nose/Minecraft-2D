@@ -1,4 +1,3 @@
-import { Application } from 'pixi.js'
 import PRNG from 'prng'
 import Chunk from './chunk'
 
@@ -6,9 +5,6 @@ import Chunk from './chunk'
  * Represents a single world 
  */
 export default class World {
-    /** The application in which to display the world */
-    app: Application
-
     /** Array of 16 chunks */
     chunks: Chunk[]
 
@@ -21,8 +17,7 @@ export default class World {
     /**
      * @param app The application in which to display the world
      */
-    constructor(app: Application) {
-        this.app = app
+    constructor() {
         this.chunks = Array.from(Array(16), () => new Chunk(this))
         this.loaded = false
         this.prng = new PRNG()

@@ -1,4 +1,5 @@
 import { Container } from 'pixi.js'
+import app from 'graphics/app'
 import Row from './row'
 import World from './world'
 
@@ -31,7 +32,7 @@ export default class Chunk {
 
         this.container = new Container()
         this.container.visible = false
-        world.app.stage.addChild(this.container)
+        app.stage.addChild(this.container)
 
         this.rows = Array.from(Array(64), () => new Row(this))
     }

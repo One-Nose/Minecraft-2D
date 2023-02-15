@@ -18,9 +18,10 @@ export default class Row {
      * @param chunk The row's chunk
      */
     constructor(chunk: Chunk) {
-        this.blocks = Array.from(Array(16), () => new Block('air'))
         this.chunk = chunk
         this.loaded = false
+
+        this.blocks = Array.from(Array(16), () => new Block(this, 'air'))
     }
 
     /**
@@ -29,7 +30,8 @@ export default class Row {
     load(): void {
         if (!this.loaded) {
             for (const block of this.blocks) {
-                block.id = this.chunk.world.prng.randBool() ? 'air' : 'stone'
+                block.setBlock(this.chunk.world.prng.randBool() ? 'air' : 'stone')
+                block.load()
             }
             this.loaded = true
         }
