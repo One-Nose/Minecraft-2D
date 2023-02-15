@@ -1,5 +1,5 @@
 import Block from './block'
-import World from './world'
+import Chunk from './chunk'
 
 /**
  * Represents a single row of 16 blocks
@@ -8,19 +8,19 @@ export default class Row {
     /** An array of 16 blocks */
     blocks: Block[]
 
+    /** The row's chunk */
+    chunk: Chunk
+
     /** `true` if the row is loaded */
     loaded: boolean
-    
-    /** The row's world */
-    world: World
 
     /**
-     * @param world The row's world
+     * @param chunk The row's chunk
      */
-    constructor(world: World) {
+    constructor(chunk: Chunk) {
         this.blocks = Array.from(Array(16), () => new Block('air'))
+        this.chunk = chunk
         this.loaded = false
-        this.world = world
     }
 
     /**
@@ -29,7 +29,7 @@ export default class Row {
     load(): void {
         if (!this.loaded) {
             for (const block of this.blocks) {
-                block.id = this.world.prng.randBool() ? 'air' : 'stone'
+                block.id = this.chunk.world.prng.randBool() ? 'air' : 'stone'
             }
             this.loaded = true
         }
