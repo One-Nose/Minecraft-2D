@@ -7,7 +7,7 @@ import World from './world'
  */
 export default class Chunk {
     /** Array of 64 rows of blocks, from bottom to top */
-    blocks: Row[]
+    rows: Row[]
 
     /** The container of the chunk's graphics */
     container: Container
@@ -25,14 +25,15 @@ export default class Chunk {
      * @param world The chunk's world
      */
     constructor(world: World) {
-        this.blocks = Array.from(Array(64), () => new Row(world))
         this.heights = Array(16).fill(0)
         this.loaded = false
         this.world = world
-        
+
         this.container = new Container()
         this.container.visible = false
         world.app.stage.addChild(this.container)
+
+        this.rows = Array.from(Array(64), () => new Row(world))
     }
 
     /**
@@ -40,7 +41,7 @@ export default class Chunk {
      */
     load(): void {
         if (!this.loaded) {
-            for (const row of this.blocks) {
+            for (const row of this.rows) {
                 row.load()
             }
             this.loaded = true
