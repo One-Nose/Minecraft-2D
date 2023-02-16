@@ -31,8 +31,14 @@ interface Bundle {
  * Loads a bundle into `textures`
  * @param bundle The name of the bundle
  */
-export async function loadBundle(bundle: string): Promise<void> {
-    textures[bundle] = await Assets.loadBundle(bundle)
+export async function loadBundle(bundle: string, transform?: (texture: Texture) => void): Promise<void> {
+    const loadedBundle: Bundle = await Assets.loadBundle(bundle)
+    if (transform !== undefined) {
+        for (const texture in loadedBundle) {
+            transform(loadedBundle[texture])
+        }
+    }
+    textures[bundle] = loadedBundle
 }
 
 export const textures: {

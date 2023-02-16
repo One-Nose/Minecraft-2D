@@ -3,6 +3,8 @@ import { initAssets, loadBundle, textures } from 'graphics/assets'
 import * as PIXI from 'pixi.js'
 import World from 'world/world'
 import { registerBlock } from 'blockRegistry'
+import { SCALE_MODES } from 'pixi.js'
+import Block from 'world/block'
 
 declare global {
     var MC: any
@@ -10,7 +12,10 @@ declare global {
 
 (async () => {
     await initAssets()
-    await loadBundle('blocks')
+    await loadBundle('blocks', (texture) => {
+        texture.baseTexture.setSize(Block.SIZE, Block.SIZE)
+        texture.baseTexture.scaleMode = SCALE_MODES.NEAREST
+    })
 
     registerBlock('air', { visible: false })
     registerBlock('stone')
