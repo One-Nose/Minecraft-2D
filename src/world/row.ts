@@ -21,7 +21,7 @@ export default class Row {
         this.chunk = chunk
         this.loaded = false
 
-        this.blocks = Array.from(Array(16), () => new Block(this, 'air'))
+        this.blocks = Array.from(Array(16), (_, index) => new Block(this, index, 'air'))
     }
 
     /**

@@ -9,6 +9,9 @@ export default class Block {
     /** The block registry */
     block: BlockRegistry
 
+    /** The block's location within the row */
+    column: number
+
     /** `true` if the block's sprite is loaded */
     loaded: boolean
 
@@ -20,10 +23,12 @@ export default class Block {
 
     /**
      * @param row The block's row
+     * @param column The block's location within the row
      * @param id The block's ID
      */
-    constructor(row: Row, id: string) {
+    constructor(row: Row, column: number, id: string) {
         this.block = blockRegistry[id]
+        this.column = column
         this.loaded = false
         this.row = row
     }
