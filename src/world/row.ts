@@ -14,12 +14,16 @@ export default class Row {
     /** `true` if the row is loaded */
     loaded: boolean
 
+    /** The row's index within the chunk */
+    y: number
+
     /**
      * @param chunk The row's chunk
      */
-    constructor(chunk: Chunk) {
+    constructor(chunk: Chunk, y: number) {
         this.chunk = chunk
         this.loaded = false
+        this.y = y
 
         this.blocks = Array.from(Array(16), (_, index) => new Block(this, index, 'air'))
     }

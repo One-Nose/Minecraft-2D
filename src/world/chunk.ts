@@ -34,7 +34,7 @@ export default class Chunk {
         this.container.visible = false
         app.stage.addChild(this.container)
 
-        this.rows = Array.from(Array(64), () => new Row(this))
+        this.rows = Array.from(Array(64), (_, index) => new Row(this, index))
     }
 
     /**

@@ -19,7 +19,7 @@ export default class Block {
     row: Row
 
     /** The block's sprite */
-    sprite?: Sprite
+    sprite: Sprite
 
     /**
      * @param row The block's row
@@ -31,15 +31,21 @@ export default class Block {
         this.column = column
         this.loaded = false
         this.row = row
+
+        this.sprite = new Sprite()
+        this.sprite.x = column * 16
+        this.sprite.y = (63 - row.y) * 16
     }
 
     /**
      * Loads the block's sprite if not loaded
      */
     load(): void {
-        if (!this.loaded && this.block.visible) {
-            this.sprite = new Sprite(this.block.texture)
-            this.row.chunk.container.addChild(this.sprite)
+        if (!this.loaded) {
+            if (this.block.visible) {
+                this.sprite.texture = this.block.texture
+                this.row.chunk.container.addChild(this.sprite)
+            }
             this.loaded = true
         }
     }
