@@ -64,6 +64,7 @@ export default class Block {
         if (this.block.isVisible) {
             this.sprite.visible = true
             this.sprite.texture = this.block.texture
+            this.sprite.tint = this.isDark ? 0xBBBBBB : 0xFFFFFF
         } else {
             this.sprite.texture = Texture.EMPTY
             this.sprite.visible = false
