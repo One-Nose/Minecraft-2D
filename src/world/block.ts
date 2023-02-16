@@ -17,7 +17,7 @@ export default class Block {
     column: number
 
     /** `true` if the block's sprite is loaded */
-    loaded: boolean
+    isLoaded: boolean
 
     /** The block's row */
     row: Row
@@ -33,7 +33,7 @@ export default class Block {
     constructor(row: Row, column: number, id: string) {
         this.block = blockRegistry[id]
         this.column = column
-        this.loaded = false
+        this.isLoaded = false
         this.row = row
 
         this.sprite = new Sprite()
@@ -45,12 +45,12 @@ export default class Block {
      * Loads the block's sprite if not loaded
      */
     load(): void {
-        if (!this.loaded) {
+        if (!this.isLoaded) {
             if (this.block.visible) {
                 this.sprite.texture = this.block.texture
                 this.row.chunk.container.addChild(this.sprite)
             }
-            this.loaded = true
+            this.isLoaded = true
         }
     }
 
@@ -59,7 +59,7 @@ export default class Block {
      * @param id The new block's ID
      */
     setBlock(id: string): void {
-        if (!this.loaded) {
+        if (!this.isLoaded) {
             this.block = blockRegistry[id]
         }
     }

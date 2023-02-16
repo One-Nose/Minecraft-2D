@@ -22,7 +22,7 @@ export default class Chunk {
     heights: number[]
 
     /** `true` if the chunk is loaded */
-    loaded: boolean
+    isLoaded: boolean
 
     /** The chunk's PRNG */
     prng: PRNG
@@ -39,7 +39,7 @@ export default class Chunk {
      */
     constructor(world: World, x: number) {
         this.heights = Array(Row.LENGTH).fill(0)
-        this.loaded = false
+        this.isLoaded = false
         this.world = world
         this.x = x
 
@@ -67,11 +67,11 @@ export default class Chunk {
      * Generates the blocks in the chunk if not loaded
      */
     load(): void {
-        if (!this.loaded) {
+        if (!this.isLoaded) {
             for (const row of this.rows) {
                 row.load()
             }
-            this.loaded = true
+            this.isLoaded = true
         }
     }
 

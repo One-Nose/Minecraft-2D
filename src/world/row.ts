@@ -19,7 +19,7 @@ export default class Row {
     chunk: Chunk
 
     /** `true` if the row is loaded */
-    loaded: boolean
+    isLoaded: boolean
 
     /** The row's PRNG */
     prng: PRNG
@@ -32,7 +32,7 @@ export default class Row {
      */
     constructor(chunk: Chunk, y: number) {
         this.chunk = chunk
-        this.loaded = false
+        this.isLoaded = false
         this.y = y
 
         this.prng = chunk.prng.child({
@@ -47,7 +47,7 @@ export default class Row {
      * Generates the blocks in the row if not loaded
      */
     load(): void {
-        if (!this.loaded) {
+        if (!this.isLoaded) {
             for (const block of this.blocks) {
                 block.setBlock(this.prng.getBool({
                     request: 'loadBlock',
@@ -55,7 +55,7 @@ export default class Row {
                 }) ? 'air' : 'stone')
                 block.load()
             }
-            this.loaded = true
+            this.isLoaded = true
         }
     }
 }

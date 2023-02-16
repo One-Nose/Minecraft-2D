@@ -17,7 +17,7 @@ export default class World {
     chunks: Chunk[]
 
     /** `true` if the world is loaded */
-    loaded: boolean
+    isLoaded: boolean
 
     /** The main player of the world */
     player: Player
@@ -29,7 +29,7 @@ export default class World {
      * @param app The application in which to display the world
      */
     constructor() {
-        this.loaded = false
+        this.isLoaded = false
         this.player = new Player(World.WIDTH / 2 + 0.5, Chunk.HEIGHT - 1)
         this.prng = new PRNG()
 
@@ -51,7 +51,7 @@ export default class World {
         for (const chunk of this.chunks) {
             chunk.load()
         }    
-        this.loaded = true
+        this.isLoaded = true
     }
 
     /**
