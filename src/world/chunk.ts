@@ -26,13 +26,18 @@ export default class Chunk {
     /** The chunk's world */
     world: World
 
+    /** The index of the chunk within the world */
+    x: number
+
     /**
      * @param world The chunk's world
+     * @param x The index of the chunk within the world
      */
-    constructor(world: World) {
+    constructor(world: World, x: number) {
         this.heights = Array(Row.WIDTH).fill(0)
         this.loaded = false
         this.world = world
+        this.x = x
 
         this.container = new Container()
         this.container.pivot.x = (Block.SIZE * Row.WIDTH) / 2
