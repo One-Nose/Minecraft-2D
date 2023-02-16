@@ -8,7 +8,7 @@ import Row from "./row"
  */
 export default class Block {
     /** The length of the edge of a block in pixels */
-    static SIZE = 16
+    static SIZE = 64
 
     /** The block registry */
     block: BlockRegistry
