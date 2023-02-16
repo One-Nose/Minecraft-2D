@@ -58,4 +58,13 @@ export default class Row {
             this.isLoaded = true
         }
     }
+
+    /**
+     * Updates the rendering of the row
+     */
+    update(): void {
+        for (const block of this.blocks) {
+            block.update()
+        }
+    }
 }

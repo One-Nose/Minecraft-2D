@@ -1,5 +1,5 @@
 import { BlockRegistry, blockRegistry } from "blockRegistry"
-import { Sprite } from "pixi.js"
+import { Sprite, Texture } from "pixi.js"
 import Chunk from "./chunk"
 import Row from "./row"
 
@@ -15,6 +15,9 @@ export default class Block {
 
     /** The block's location within the row */
     column: number
+
+    /** `true` if the block is shadowed */
+    isDark: boolean
 
     /** `true` if the block's sprite is loaded */
     isLoaded: boolean
@@ -33,6 +36,7 @@ export default class Block {
     constructor(row: Row, column: number, id: string) {
         this.block = blockRegistry[id]
         this.column = column
+        this.isDark = false
         this.isLoaded = false
         this.row = row
 
@@ -46,8 +50,7 @@ export default class Block {
      */
     load(): void {
         if (!this.isLoaded) {
-            if (this.block.visible) {
-                this.sprite.texture = this.block.texture
+            if (this.block.isVisible) {
                 this.row.chunk.container.addChild(this.sprite)
             }
             this.isLoaded = true
@@ -55,12 +58,23 @@ export default class Block {
     }
 
     /**
-     * Changes the block to a new one, if not loaded
+     * Updates the block's sprite
+     */
+    update(): void {
+        if (this.block.isVisible) {
+            this.sprite.visible = true
+            this.sprite.texture = this.block.texture
+        } else {
+            this.sprite.texture = Texture.EMPTY
+            this.sprite.visible = false
+        }
+    }
+
+    /**
+     * Changes the block to a new one
      * @param id The new block's ID
      */
     setBlock(id: string): void {
-        if (!this.isLoaded) {
-            this.block = blockRegistry[id]
-        }
+        this.block = blockRegistry[id]
     }
 }

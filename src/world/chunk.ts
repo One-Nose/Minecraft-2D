@@ -76,7 +76,7 @@ export default class Chunk {
     }
 
     /**
-     * Updates the location and visiblity of the chunk
+     * Updates the rendering of the chunk
      */
     update(): void {
         this.container.pivot.x = this.world.player.x * Block.SIZE
@@ -87,6 +87,10 @@ export default class Chunk {
             this.container.visible = true
         } else {
             this.container.visible = false
+        }
+
+        for (const row of this.rows) {
+            row.update()
         }
     }
 }

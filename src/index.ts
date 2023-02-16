@@ -17,7 +17,7 @@ declare global {
         texture.baseTexture.scaleMode = SCALE_MODES.NEAREST
     })
 
-    registerBlock('air', { visible: false })
+    registerBlock('air', { isVisible: false })
     registerBlock('stone')
 
     const world = new World()
