@@ -11,7 +11,7 @@ export default class World {
     static CHUNKS = 16
 
     /** The width of a world in blocks */
-    static WIDTH = this.CHUNKS * Row.WIDTH
+    static WIDTH = this.CHUNKS * Row.LENGTH
 
     /** Array of chunks */
     chunks: Chunk[]
@@ -31,8 +31,16 @@ export default class World {
     constructor() {
         this.chunks = Array.from(Array(World.CHUNKS), (_, index) => new Chunk(this, index))
         this.loaded = false
-        this.player = new Player(World.WIDTH / 2, 64)
+        this.player = new Player(World.WIDTH / 2 + 0.5, Chunk.HEIGHT - 1)
         this.prng = new PRNG()
+
+        addEventListener('resize', () => {
+            setTimeout(() => {
+                for (const chunk of this.chunks) {
+                    chunk.fix()
+                }
+            })
+        })
     }
 
     /**
@@ -43,5 +51,14 @@ export default class World {
             chunk.load()
         }    
         this.loaded = true
-    }    
+    }
+
+    /**
+     * Updates the rendering of the world
+     */
+    update(): void {
+        for (const chunk of this.chunks) {
+            chunk.update()
+        }
+    }
 }

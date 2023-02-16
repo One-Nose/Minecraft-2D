@@ -34,18 +34,24 @@ export default class Chunk {
      * @param x The index of the chunk within the world
      */
     constructor(world: World, x: number) {
-        this.heights = Array(Row.WIDTH).fill(0)
+        this.heights = Array(Row.LENGTH).fill(0)
         this.loaded = false
         this.world = world
         this.x = x
 
         this.container = new Container()
-        this.container.pivot.x = (Block.SIZE * Row.WIDTH) / 2
-        this.container.pivot.y = (Block.SIZE * Chunk.HEIGHT) / 2
-        // this.container.visible = false
+        this.fix()
         app.stage.addChild(this.container)
 
         this.rows = Array.from(Array(Chunk.HEIGHT), (_, index) => new Row(this, index))
+    }
+
+    /**
+     * Fixes the chunk's position according to the screen size
+     */
+    fix(): void {
+        this.container.x = app.screen.width / 2 + this.x * Row.WIDTH
+        this.container.y = app.screen.height * 2/3
     }
 
     /**
@@ -57,6 +63,21 @@ export default class Chunk {
                 row.load()
             }
             this.loaded = true
+        }
+    }
+
+    /**
+     * Updates the location and visiblity of the chunk
+     */
+    update(): void {
+        this.container.pivot.x = this.world.player.x * Block.SIZE
+        this.container.pivot.y = (63 - this.world.player.y) * Block.SIZE
+
+        const x = this.container.x - this.container.pivot.x
+        if (-Row.WIDTH < x && x < app.screen.width) {
+            this.container.visible = true
+        } else {
+            this.container.visible = false
         }
     }
 }

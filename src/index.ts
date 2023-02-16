@@ -18,6 +18,10 @@ declare global {
     const world = new World()
     world.load()
 
+    app.ticker.add(() => {
+        world.update()
+    })
+
     globalThis.MC = {
         app: app,
         textures: textures,

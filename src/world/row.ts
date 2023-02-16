@@ -5,8 +5,11 @@ import Chunk from './chunk'
  * Represents a single row of 16 blocks
  */
 export default class Row {
-    /** The width of a row in blocks */
-    static WIDTH = 16
+    /** The length of a row in blocks */
+    static LENGTH = 16
+
+    /** The width of a row in pixels */
+    static WIDTH = Row.LENGTH * Block.SIZE
 
     /** An array of blocks */
     blocks: Block[]
@@ -28,7 +31,7 @@ export default class Row {
         this.loaded = false
         this.y = y
 
-        this.blocks = Array.from(Array(Row.WIDTH), (_, index) => new Block(this, index, 'air'))
+        this.blocks = Array.from(Array(Row.LENGTH), (_, index) => new Block(this, index, 'air'))
     }
 
     /**
