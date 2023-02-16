@@ -29,10 +29,11 @@ export default class World {
      * @param app The application in which to display the world
      */
     constructor() {
-        this.chunks = Array.from(Array(World.CHUNKS), (_, index) => new Chunk(this, index))
         this.loaded = false
         this.player = new Player(World.WIDTH / 2 + 0.5, Chunk.HEIGHT - 1)
         this.prng = new PRNG()
+
+        this.chunks = Array.from(Array(World.CHUNKS), (_, index) => new Chunk(this, index))
 
         addEventListener('resize', () => {
             setTimeout(() => {

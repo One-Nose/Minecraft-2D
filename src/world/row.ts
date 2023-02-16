@@ -1,3 +1,4 @@
+import PRNG from 'prng'
 import Block from './block'
 import Chunk from './chunk'
 
@@ -20,6 +21,9 @@ export default class Row {
     /** `true` if the row is loaded */
     loaded: boolean
 
+    /** The row's PRNG */
+    prng: PRNG
+
     /** The row's index within the chunk */
     y: number
 
@@ -31,6 +35,11 @@ export default class Row {
         this.loaded = false
         this.y = y
 
+        this.prng = chunk.prng.child({
+            type: 'row',
+            y: y,
+        })
+
         this.blocks = Array.from(Array(Row.LENGTH), (_, index) => new Block(this, index, 'air'))
     }
 
@@ -40,7 +49,10 @@ export default class Row {
     load(): void {
         if (!this.loaded) {
             for (const block of this.blocks) {
-                block.setBlock(this.chunk.world.prng.randBool() ? 'air' : 'stone')
+                block.setBlock(this.prng.getBool({
+                    request: 'loadBlock',
+                    block: block.column,
+                }) ? 'air' : 'stone')
                 block.load()
             }
             this.loaded = true

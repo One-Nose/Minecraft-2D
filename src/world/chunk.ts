@@ -3,6 +3,7 @@ import app from 'graphics/app'
 import Row from './row'
 import World from './world'
 import Block from './block'
+import PRNG from 'prng'
 
 /**
  * Represents a single chunk consisting of 16x64 blocks
@@ -23,6 +24,9 @@ export default class Chunk {
     /** `true` if the chunk is loaded */
     loaded: boolean
 
+    /** The chunk's PRNG */
+    prng: PRNG
+
     /** The chunk's world */
     world: World
 
@@ -38,6 +42,11 @@ export default class Chunk {
         this.loaded = false
         this.world = world
         this.x = x
+
+        this.prng = world.prng.child({
+            type: 'chunk',
+            x: x,
+        })
 
         this.container = new Container()
         this.fix()
