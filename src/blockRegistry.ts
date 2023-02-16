@@ -26,9 +26,9 @@ export class BlockRegistry {
      * @param options Optional attributes for the block
      */
     constructor(id: string, options: BlockRegistryOptions = {}) {
-        this.texture = textures.blocks[id]
-
         this.visible = options.visible ?? true
+
+        this.texture = this.visible ? textures.blocks[id] : Texture.EMPTY
     }
 }
 
