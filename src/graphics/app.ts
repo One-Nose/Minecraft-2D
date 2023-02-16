@@ -2,8 +2,10 @@ import { Application } from "pixi.js"
 
 const canvas = document.getElementById('game') as HTMLCanvasElement
 
-export default new Application({
+const app: Application<HTMLCanvasElement> = new Application({
     backgroundColor: 0x78A7FF,
     resizeTo: canvas,
     view: canvas,
 })
+
+export default app
