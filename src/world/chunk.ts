@@ -60,7 +60,7 @@ export default class Chunk {
      */
     fix(): void {
         this.container.x = app.screen.width / 2 + this.x * Row.WIDTH
-        this.container.y = app.screen.height * 2/3
+        this.container.y = app.screen.height * 0.75
     }
 
     /**
