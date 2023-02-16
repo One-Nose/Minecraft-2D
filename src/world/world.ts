@@ -5,7 +5,10 @@ import Chunk from './chunk'
  * Represents a single world 
  */
 export default class World {
-    /** Array of 16 chunks */
+    /** The width of a world in chunks */
+    static WIDTH = 16
+
+    /** Array of chunks */
     chunks: Chunk[]
 
     /** `true` if the world is loaded */
@@ -18,7 +21,7 @@ export default class World {
      * @param app The application in which to display the world
      */
     constructor() {
-        this.chunks = Array.from(Array(16), () => new Chunk(this))
+        this.chunks = Array.from(Array(World.WIDTH), () => new Chunk(this))
         this.loaded = false
         this.prng = new PRNG()
     }    

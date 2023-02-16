@@ -1,11 +1,15 @@
 import { BlockRegistry, blockRegistry } from "blockRegistry"
 import { Sprite } from "pixi.js"
+import Chunk from "./chunk"
 import Row from "./row"
 
 /**
  * Represents a block
  */
 export default class Block {
+    /** The length of the edge of a block in pixels */
+    static SIZE = 16
+
     /** The block registry */
     block: BlockRegistry
 
@@ -33,8 +37,8 @@ export default class Block {
         this.row = row
 
         this.sprite = new Sprite()
-        this.sprite.x = column * 16
-        this.sprite.y = (63 - row.y) * 16
+        this.sprite.x = column * Block.SIZE
+        this.sprite.y = (Chunk.HEIGHT - row.y - 1) * Block.SIZE
     }
 
     /**

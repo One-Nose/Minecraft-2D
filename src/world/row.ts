@@ -5,7 +5,10 @@ import Chunk from './chunk'
  * Represents a single row of 16 blocks
  */
 export default class Row {
-    /** An array of 16 blocks */
+    /** The width of a row in blocks */
+    static WIDTH = 16
+
+    /** An array of blocks */
     blocks: Block[]
 
     /** The row's chunk */
@@ -25,7 +28,7 @@ export default class Row {
         this.loaded = false
         this.y = y
 
-        this.blocks = Array.from(Array(16), (_, index) => new Block(this, index, 'air'))
+        this.blocks = Array.from(Array(Row.WIDTH), (_, index) => new Block(this, index, 'air'))
     }
 
     /**
