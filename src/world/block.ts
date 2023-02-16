@@ -14,7 +14,7 @@ export default class Block {
     block: BlockRegistry
 
     /** The block's location within the row */
-    column: number
+    x: number
 
     /** `true` if the block is shadowed */
     isDark: boolean
@@ -30,18 +30,18 @@ export default class Block {
 
     /**
      * @param row The block's row
-     * @param column The block's location within the row
+     * @param x The block's location within the row
      * @param id The block's ID
      */
-    constructor(row: Row, column: number, id: string) {
+    constructor(row: Row, x: number, id: string) {
         this.block = blockRegistry[id]
-        this.column = column
+        this.x = x
         this.isDark = false
         this.isLoaded = false
         this.row = row
 
         this.sprite = new Sprite()
-        this.sprite.x = column * Block.SIZE
+        this.sprite.x = x * Block.SIZE
         this.sprite.y = (Chunk.HEIGHT - row.y - 1) * Block.SIZE
     }
 
@@ -64,7 +64,13 @@ export default class Block {
         if (this.block.isVisible) {
             this.sprite.visible = true
             this.sprite.texture = this.block.texture
-            this.sprite.tint = this.isDark ? 0xBBBBBB : 0xFFFFFF
+
+            if (this.row.chunk.heights[this.x] === this.row.y) {
+                this.isDark = false
+            } else {
+                this.isDark = true
+            }
+            this.sprite.tint = this.isDark ? 0x888888 : 0xFFFFFF
         } else {
             this.sprite.texture = Texture.EMPTY
             this.sprite.visible = false
@@ -77,5 +83,11 @@ export default class Block {
      */
     setBlock(id: string): void {
         this.block = blockRegistry[id]
+
+        if (this.block.isVisible) {
+            if (this.row.y > this.row.chunk.heights[this.x]) {
+                this.row.chunk.heights[this.x] = this.row.y
+            }
+        }
     }
 }
