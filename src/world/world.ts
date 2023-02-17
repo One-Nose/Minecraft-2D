@@ -1,5 +1,7 @@
+import app from 'graphics/app'
 import Player from 'player'
 import PRNG from 'prng'
+import Block from './block'
 import Chunk from './chunk'
 import Row from './row'
 
@@ -33,18 +35,29 @@ export default class World {
      */
     constructor() {
         this.isLoaded = false
-        this.player = new Player(World.WIDTH / 2 + 0.5, World.HEIGHT - 1)
         this.prng = new PRNG()
-
+        
         this.chunks = Array.from(Array(World.CHUNKS), (_, index) => new Chunk(this, index))
+        this.player = new Player(this, World.WIDTH / 2 + 0.5, World.HEIGHT)
 
+        this.fix()
         addEventListener('resize', () => {
-            setTimeout(() => {
-                for (const chunk of this.chunks) {
-                    chunk.fix()
-                }
-            })
+            setTimeout(() => this.fix())
         })
+    }
+
+    /**
+     * Fixes the world's location on the screen
+     */
+    fix(): void {
+        app.stage.x = app.screen.width / 2
+        app.stage.y = app.screen.height * 0.7
+    }
+
+    getBlock(x: number, y: number): Block | undefined {
+        return this.chunks[Math.floor(x / Row.LENGTH)]
+            ?.rows?.[Math.floor(y)]
+            ?.blocks?.[Math.floor(x % Row.LENGTH)]
     }
 
     /**

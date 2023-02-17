@@ -46,18 +46,10 @@ export default class Chunk {
         })
 
         this.container = new Container()
-        this.fix()
+        this.container.x = this.x * Row.WIDTH
         app.stage.addChild(this.container)
 
         this.rows = Array.from(Array(World.HEIGHT), (_, index) => new Row(this, index))
-    }
-
-    /**
-     * Fixes the chunk's position according to the screen size
-     */
-    fix(): void {
-        this.container.x = app.screen.width / 2 + this.x * Row.WIDTH
-        this.container.y = app.screen.height * 0.75
     }
 
     /**
@@ -87,7 +79,7 @@ export default class Chunk {
         this.container.pivot.x = this.world.player.x * Block.SIZE
         this.container.pivot.y = (63 - this.world.player.y) * Block.SIZE
 
-        const x = this.container.x - this.container.pivot.x
+        const x = app.stage.x + this.container.x - this.container.pivot.x
         if (-Row.WIDTH < x && x < app.screen.width) {
             this.container.visible = true
         } else {

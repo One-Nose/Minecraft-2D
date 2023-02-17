@@ -1,6 +1,5 @@
 import { BlockRegistry, blockRegistry } from "blockRegistry"
 import { Container, Sprite, Texture } from "pixi.js"
-import Chunk from "./chunk"
 import Row from "./row"
 import World from "./world"
 
@@ -10,7 +9,13 @@ import World from "./world"
 export default class Block {
     /** The length of the edge of a block in pixels */
     static SIZE = 64
+    
+    /** The block's skew angle */
+    static SKEW = Math.PI / 4
 
+    /** The length of the shrinking effect on the top and side of the block */
+    static SIZE_3D = Block.SIZE / 2
+    
     /** The block registry */
     block: BlockRegistry
 
@@ -63,11 +68,11 @@ export default class Block {
         this.top.anchor.y = 1
         this.side.x = Block.SIZE
 
-        this.side.skew.y = -Math.PI / 4
-        this.top.skew.x = -(Math.PI / 2 + this.side.skew.y)
+        this.side.skew.y = -Block.SKEW
+        this.top.skew.x = Block.SKEW - Math.PI / 2 
 
-        this.top.height = Block.SIZE / 2
-        this.side.width = this.top.height
+        this.top.height = Block.SIZE_3D
+        this.side.width = Block.SIZE_3D
 
         this.container.addChild(this.top)
         this.container.addChild(this.side)
