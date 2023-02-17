@@ -18,6 +18,7 @@ declare global {
     })
 
     registerBlock('air', { isVisible: false })
+    registerBlock('grass_block')
     registerBlock('stone')
 
     const world = new World()

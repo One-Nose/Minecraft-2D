@@ -79,10 +79,11 @@ export default class PRNG {
     /**
      * Generates a pseudorandom boolean
      * @param request The request object
+     * @param chance The chance of generating `true`
      * @returns A pseudorandom boolean
      */
-    getBool(request: PRNGRequest): boolean {
-        return this.getNumber(request) < 0.5
+    getBool(request: PRNGRequest, chance: number = 0.5): boolean {
+        return this.getNumber(request) < chance
     }
 
     /**

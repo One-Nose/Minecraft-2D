@@ -71,6 +71,14 @@ export default class Chunk {
             for (const row of this.rows) {
                 row.load()
             }
+            for (const x in this.heights) {
+                if (this.prng.getBool({
+                    request: 'load grass',
+                    x: x,
+                }, this.heights[x] / (Chunk.HEIGHT - 1))) {
+                    this.rows[this.heights[x]].blocks[x].setBlock('grass_block')
+                }
+            }
             this.isLoaded = true
         }
     }

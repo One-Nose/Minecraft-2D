@@ -1,4 +1,5 @@
 import { Assets, Texture } from 'pixi.js';
+import GrassBlock from 'assets/grass_block.png'
 import Stone from 'assets/stone.png'
 
 /**
@@ -15,6 +16,10 @@ export async function initAssets(): Promise<void> {
                         {
                             name: 'stone',
                             srcs: Stone,
+                        },
+                        {
+                            name: 'grass_block',
+                            srcs: GrassBlock,
                         },
                     ],
                 },
