@@ -50,7 +50,7 @@ export default class Row {
         if (!this.isLoaded) {
             for (const block of this.blocks) {
                 block.setBlock(this.prng.getBool({
-                    request: 'loadBlock',
+                    request: 'load block',
                     block: block.x,
                 }) ? 'air' : 'stone')
                 block.load()
