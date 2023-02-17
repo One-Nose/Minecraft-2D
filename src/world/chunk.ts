@@ -9,9 +9,6 @@ import PRNG from 'prng'
  * Represents a single chunk consisting of 16x64 blocks
  */
 export default class Chunk {
-    /** The height of a chunk in blocks */
-    static HEIGHT = 64
-
     /** Array of rows of blocks, from bottom to top */
     rows: Row[]
 
@@ -52,7 +49,7 @@ export default class Chunk {
         this.fix()
         app.stage.addChild(this.container)
 
-        this.rows = Array.from(Array(Chunk.HEIGHT), (_, index) => new Row(this, index))
+        this.rows = Array.from(Array(World.HEIGHT), (_, index) => new Row(this, index))
     }
 
     /**
@@ -75,7 +72,7 @@ export default class Chunk {
                 if (this.prng.getBool({
                     request: 'load grass',
                     x: x,
-                }, this.heights[x] / (Chunk.HEIGHT - 1))) {
+                }, this.heights[x] / (World.HEIGHT - 1))) {
                     this.rows[this.heights[x]].blocks[x].setBlock('grass_block')
                 }
             }

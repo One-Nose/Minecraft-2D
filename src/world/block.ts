@@ -2,6 +2,7 @@ import { BlockRegistry, blockRegistry } from "blockRegistry"
 import { Container, Sprite, Texture } from "pixi.js"
 import Chunk from "./chunk"
 import Row from "./row"
+import World from "./world"
 
 /**
  * Represents a block
@@ -51,7 +52,7 @@ export default class Block {
 
         this.container = new Container()
         this.container.x = x * Block.SIZE
-        this.container.y = (Chunk.HEIGHT - row.y - 1) * Block.SIZE
+        this.container.y = (World.HEIGHT - row.y - 1) * Block.SIZE
 
         this.front = new Sprite()
         this.container.addChild(this.front)

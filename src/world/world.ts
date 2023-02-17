@@ -10,6 +10,9 @@ export default class World {
     /** The width of a world in chunks */
     static CHUNKS = 16
 
+    /** The height of a world in blocks */
+    static HEIGHT = 64
+
     /** The width of a world in blocks */
     static WIDTH = this.CHUNKS * Row.LENGTH
 
@@ -30,7 +33,7 @@ export default class World {
      */
     constructor() {
         this.isLoaded = false
-        this.player = new Player(World.WIDTH / 2 + 0.5, Chunk.HEIGHT - 1)
+        this.player = new Player(World.WIDTH / 2 + 0.5, World.HEIGHT - 1)
         this.prng = new PRNG()
 
         this.chunks = Array.from(Array(World.CHUNKS), (_, index) => new Chunk(this, index))
