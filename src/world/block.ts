@@ -83,9 +83,7 @@ export default class Block {
      */
     load(): void {
         if (!this.isLoaded) {
-            if (this.block.isVisible) {
-                this.row.chunk.container.addChild(this.container)
-            }
+            this.row.chunk.container.addChild(this.container)
             this.isLoaded = true
         }
     }
