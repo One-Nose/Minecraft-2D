@@ -82,12 +82,11 @@ export default class Chunk {
         const x = app.stage.x + this.container.x - this.container.pivot.x
         if (-Row.WIDTH < x && x < app.screen.width) {
             this.container.visible = true
+            for (const row of this.rows) {
+                row.update()
+            }
         } else {
             this.container.visible = false
-        }
-
-        for (const row of this.rows) {
-            row.update()
         }
     }
 }
