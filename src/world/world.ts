@@ -54,6 +54,12 @@ export default class World {
         app.stage.y = app.screen.height * 0.7
     }
 
+    /**
+     * Locates a block by its coordinates
+     * @param x The block's X position
+     * @param y The block's Y position
+     * @returns The block
+     */
     getBlock(x: number, y: number): Block | undefined {
         return this.chunks[Math.floor(x / Row.LENGTH)]
             ?.rows?.[Math.floor(y)]
