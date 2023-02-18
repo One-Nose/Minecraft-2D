@@ -53,9 +53,9 @@ export default class Player {
 
         if (this.motion.x > 0) {
             minX = -Infinity
-            maxX = this.x + this.motion.x * Block.SIZE
+            maxX = this.x + this.motion.x
         } else if (this.motion.x < 0) {
-            minX = this.x + this.motion.x * Block.SIZE
+            minX = this.x + this.motion.x
             maxX = Infinity
         } else {
             minX = -Infinity
@@ -63,11 +63,11 @@ export default class Player {
         }
 
         if (this.motion.y > 0) {
-            minY = this.y - this.motion.y * Block.SIZE
-            maxY = Infinity
+            minY = -Infinity
+            maxY = this.y + this.motion.y
         } else if (this.motion.y < 0) {
-            minY = Infinity
-            maxY = this.y - this.motion.y * Block.SIZE
+            minY = this.y + this.motion.y
+            maxY = Infinity
         } else {
             minY = -Infinity
             maxY = Infinity
@@ -86,44 +86,49 @@ export default class Player {
         // )
         // return
         while (minX <= currentX && currentX <= maxX && minY <= currentY && currentY <= maxY) {
-            let xDistance, yDistance
+            if (this.world.getBlock(currentX, currentY)?.block?.isVisible) {
+                this.x = currentX
+                this.y = currentY
+                return
+            }
+
+            let deltaX, deltaY
 
             if (this.motion.x > 0) {
-                xDistance = Block.SIZE - currentX % Block.SIZE
+                deltaX = 1 - (currentX - Math.floor(currentX))
             } else if (this.motion.x < 0) {
-                xDistance = currentX % Block.SIZE + 1
-            } else xDistance = Infinity
+                deltaX = -(currentX - Math.floor(currentX) + 0.001)
+            } else deltaX = Infinity
 
             if (this.motion.y > 0) {
-                yDistance = -(currentY % Block.SIZE + 1)
+                deltaY = 1 - (currentY - Math.floor(currentY))
             } else if (this.motion.y < 0) {
-                yDistance = Block.SIZE - currentY % Block.SIZE
-            } else yDistance = Infinity
+                deltaY = -(currentY - Math.floor(currentY) + 0.001)
+            } else deltaY = Infinity
 
-            if (xDistance < yDistance) {
-                yDistance = -xDistance * this.motion.y / this.motion.x
-            } else if (yDistance < xDistance) {
-                xDistance = -yDistance * this.motion.x / this.motion.y
-            }
-
-            if (this.world.getBlock(currentX + xDistance, currentY + yDistance)?.block?.isVisible) {
-                this.x = currentX + xDistance
-                this.y = currentY + yDistance
+            if (Math.abs(deltaX) < Math.abs(deltaY)) {
+                deltaY = deltaX * this.motion.y / this.motion.x
+            } else if (Math.abs(deltaY) < Math.abs(deltaX)) {
+                deltaX = deltaY * this.motion.x / this.motion.y
+            } else if (deltaX === Infinity && deltaY === Infinity) {
                 break
             }
+
+            currentX += deltaX
+            currentY += deltaY
         }
         if (this.motion.x > 0) this.x = maxX
         else if (this.motion.x < 0) this.x = minX
 
-        if (this.motion.y > 0) this.y = minY
-        else if (this.motion.y < 0) this.y = maxY
+        if (this.motion.y > 0) this.y = maxY
+        else if (this.motion.y < 0) this.y = minY
     }
 
     /**
      * Runs every tick
      */
     tick(): void {
-        this.motion.y = -0.001
+        this.motion.y = -0.1
         this.move()
     }
 }
