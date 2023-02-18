@@ -92,7 +92,7 @@ export default class Block {
      * Updates the block's sprite
      */
     update(): void {
-        if (this.block.isVisible) {
+        if (this.block.isSolid) {
             if (this.row.chunk.heights[this.x] === this.row.y) {
                 this.isDark = false
             } else {
@@ -109,8 +109,8 @@ export default class Block {
                 this.side.tint -= 0x444444
             }
 
-            this.top.visible = !this.row.chunk.rows[this.row.y + 1]?.blocks[this.x]?.block?.isVisible
-            this.side.visible = !this.row.blocks[this.x + 1]?.block?.isVisible
+            this.top.visible = !this.row.chunk.rows[this.row.y + 1]?.blocks[this.x]?.block?.isSolid
+            this.side.visible = !this.row.blocks[this.x + 1]?.block?.isSolid
         }
     }
 
@@ -121,7 +121,7 @@ export default class Block {
     setBlock(id: string): void {
         this.block = blockRegistry[id]
 
-        if (this.block.isVisible) {
+        if (this.block.isSolid) {
             this.container.visible = true
 
             this.front.texture = this.block.texture

@@ -8,7 +8,7 @@ interface BlockRegistryOptions {
      * Whether the block is visible
      * @default true
      */
-    isVisible?: boolean
+    isSolid?: boolean
 }
 
 /**
@@ -18,17 +18,17 @@ export class BlockRegistry {
     /** The block's texture */
     texture: Texture
 
-    /** Whether the block is visible */
-    isVisible: boolean
+    /** Whether the block is solid and visible */
+    isSolid: boolean
 
     /**
      * @param id The block's ID
      * @param options Optional attributes for the block
      */
     constructor(id: string, options: BlockRegistryOptions = {}) {
-        this.isVisible = options.isVisible ?? true
+        this.isSolid = options.isSolid ?? true
 
-        this.texture = this.isVisible ? textures.blocks[id] : Texture.EMPTY
+        this.texture = this.isSolid ? textures.blocks[id] : Texture.EMPTY
     }
 }
 

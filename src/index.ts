@@ -17,7 +17,7 @@ declare global {
         texture.baseTexture.scaleMode = SCALE_MODES.NEAREST
     })
 
-    registerBlock('air', { isVisible: false })
+    registerBlock('air', { isSolid: false })
     registerBlock('grass_block')
     registerBlock('stone')
 
