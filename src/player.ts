@@ -88,7 +88,13 @@ export default class Player {
         while (minX <= currentX && currentX <= maxX && minY <= currentY && currentY <= maxY) {
             if (this.world.getBlock(currentX, currentY)?.block?.isVisible) {
                 this.x = currentX
+                if (this.motion.x > 0) this.x -= 0.001
+                else if (this.motion.x < 0) this.x += 0.001
+
                 this.y = currentY
+                if (this.motion.y > 0) this.y -= 0.001
+                else if (this.motion.y < 0) this.y += 0.001
+
                 return
             }
 
