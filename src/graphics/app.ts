@@ -8,4 +8,12 @@ const app: Application<HTMLCanvasElement> = new Application({
     view: canvas,
 })
 
+addEventListener('resize', () => {
+    setTimeout(() => {
+        app.stage.x = app.screen.width / 2
+        app.stage.y = app.screen.height * 0.7
+    })
+})
+dispatchEvent(new Event('resize'))
+
 export default app

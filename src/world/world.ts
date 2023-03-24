@@ -39,19 +39,6 @@ export default class World {
         
         this.chunks = Array.from(Array(World.CHUNKS), (_, index) => new Chunk(this, index))
         this.player = new Player(this, World.WIDTH / 2 + 0.5, World.HEIGHT)
-
-        this.fix()
-        addEventListener('resize', () => {
-            setTimeout(() => this.fix())
-        })
-    }
-
-    /**
-     * Fixes the world's location on the screen
-     */
-    fix(): void {
-        app.stage.x = app.screen.width / 2
-        app.stage.y = app.screen.height * 0.7
     }
 
     /**
