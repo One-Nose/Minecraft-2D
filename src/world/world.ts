@@ -68,6 +68,14 @@ export default class World {
     }
 
     /**
+     * Runs every tick
+     */
+    tick(): void {
+        this.player.tick()
+        this.update()
+    }
+
+    /**
      * Updates the rendering of the world
      */
     update(): void {
