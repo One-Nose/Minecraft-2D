@@ -6,7 +6,7 @@ import World from "world/world"
  * Represents a player
  */
 export default class Player {
-    /** The player's current motion vector */
+    /** The player's current motion vector in blocks/tick */
     motion: {x: number, y: number}
 
     /** The player's sprite */
