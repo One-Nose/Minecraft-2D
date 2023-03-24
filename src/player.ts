@@ -1,4 +1,3 @@
-import app from "graphics/app"
 import { Sprite, Texture } from "pixi.js"
 import Block from "world/block"
 import World from "world/world"
@@ -33,14 +32,14 @@ export default class Player {
         this.sprite.anchor.y = 1
         this.sprite.x = Block.SIZE_3D * Math.cos(Block.SKEW) / 2
         this.sprite.y = Block.SIZE - this.sprite.x
-        app.stage.addChild(this.sprite)
+        world.app.stage.addChild(this.sprite)
 
         this.motion = {x: 0, y: 0}
         this.world = world
         this.x = x
         this.y = y
 
-        app.ticker.add(() => {
+        world.app.ticker.add(() => {
             this.tick()
         })
     }

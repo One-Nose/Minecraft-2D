@@ -1,5 +1,4 @@
 import { Container } from 'pixi.js'
-import app from 'graphics/app'
 import Row from './row'
 import World from './world'
 import Block from './block'
@@ -47,7 +46,7 @@ export default class Chunk {
 
         this.container = new Container()
         this.container.x = this.x * Row.WIDTH
-        app.stage.addChild(this.container)
+        world.app.stage.addChild(this.container)
 
         this.rows = Array.from(Array(World.HEIGHT), (_, index) => new Row(this, index))
     }
@@ -79,8 +78,8 @@ export default class Chunk {
         this.container.pivot.x = this.world.player.x * Block.SIZE
         this.container.pivot.y = (63 - this.world.player.y) * Block.SIZE
 
-        const x = app.stage.x + this.container.x - this.container.pivot.x
-        if (-Row.WIDTH < x && x < app.screen.width) {
+        const x = this.world.app.stage.x + this.container.x - this.container.pivot.x
+        if (-Row.WIDTH < x && x < this.world.app.screen.width) {
             this.container.visible = true
             for (const row of this.rows) {
                 row.update()
