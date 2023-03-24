@@ -25,7 +25,7 @@ declare global {
     world.load()
 
     app.ticker.add(() => {
-        world.update()
+        world.tick()
     })
 
     globalThis.MC = {

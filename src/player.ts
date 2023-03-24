@@ -38,10 +38,6 @@ export default class Player {
         this.world = world
         this.x = x
         this.y = y
-
-        world.app.ticker.add(() => {
-            this.tick()
-        })
     }
 
     /**
