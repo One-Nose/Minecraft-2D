@@ -1,4 +1,4 @@
-import app from 'graphics/app'
+import { Application } from 'pixi.js'
 import Player from 'player'
 import PRNG from 'prng'
 import Block from './block'
@@ -18,6 +18,9 @@ export default class World {
     /** The width of a world in blocks */
     static WIDTH = this.CHUNKS * Row.LENGTH
 
+    /** The world's application */
+    app: Application<HTMLCanvasElement>
+
     /** Array of chunks */
     chunks: Chunk[]
 
@@ -33,7 +36,8 @@ export default class World {
     /**
      * @param app The application in which to display the world
      */
-    constructor() {
+    constructor(app: Application<HTMLCanvasElement>) {
+        this.app = app
         this.isLoaded = false
         this.prng = new PRNG()
         

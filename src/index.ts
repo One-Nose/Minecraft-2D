@@ -21,7 +21,7 @@ declare global {
     registerBlock('grass_block')
     registerBlock('stone')
 
-    const world = new World()
+    const world = new World(app)
     world.load()
 
     app.ticker.add(() => {
