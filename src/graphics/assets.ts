@@ -29,6 +29,7 @@ interface Bundle {
 /**
  * Loads a bundle into `textures`
  * @param bundle The name of the bundle
+ * @param transform Function to apply to the texture
  */
 export async function loadBundle(
     bundle: string,
