@@ -1,13 +1,13 @@
-import { Sprite, Texture } from "pixi.js"
-import Block from "world/block"
-import World from "world/world"
+import { Sprite, Texture } from 'pixi.js'
+import Block from 'world/block'
+import World from 'world/world'
 
 /**
  * Represents a player
  */
 export default class Player {
     /** The player's current motion vector in blocks/tick */
-    motion: {x: number, y: number}
+    motion: { x: number; y: number }
 
     /** The player's sprite */
     sprite: Sprite
@@ -30,11 +30,11 @@ export default class Player {
         this.sprite = new Sprite(Texture.WHITE)
         this.sprite.anchor.x = 0.5
         this.sprite.anchor.y = 1
-        this.sprite.x = Block.SIZE_3D * Math.cos(Block.SKEW) / 2
+        this.sprite.x = (Block.SIZE_3D * Math.cos(Block.SKEW)) / 2
         this.sprite.y = Block.SIZE - this.sprite.x
         world.app.stage.addChild(this.sprite)
 
-        this.motion = {x: 0, y: 0}
+        this.motion = { x: 0, y: 0 }
         this.world = world
         this.x = x
         this.y = y
@@ -76,8 +76,14 @@ export default class Player {
         let isXBlocked = false
         let isYBlocked = false
 
-        while (minX <= currentX && currentX <= maxX && minY <= currentY && currentY <= maxY) {
-            let deltaX = Infinity, deltaY = Infinity
+        while (
+            minX <= currentX &&
+            currentX <= maxX &&
+            minY <= currentY &&
+            currentY <= maxY
+        ) {
+            let deltaX = Infinity,
+                deltaY = Infinity
 
             if (!isXBlocked) {
                 if (this.motion.x > 0) {
@@ -89,7 +95,7 @@ export default class Player {
             }
 
             if (!isYBlocked) {
-                    if (this.motion.y > 0) {
+                if (this.motion.y > 0) {
                     deltaY = 1 - (currentY - Math.floor(currentY))
                 } else if (this.motion.y < 0) {
                     deltaY = -(currentY - Math.floor(currentY) + 0.001)
@@ -100,17 +106,19 @@ export default class Player {
             let closest: 'x' | 'y' | 'none'
             if (Math.abs(deltaX) < Math.abs(deltaY)) {
                 closest = 'x'
-                deltaY = deltaX * this.motion.y / this.motion.x
+                deltaY = (deltaX * this.motion.y) / this.motion.x
             } else if (Math.abs(deltaY) < Math.abs(deltaX)) {
                 closest = 'y'
-                deltaX = deltaY * this.motion.x / this.motion.y
+                deltaX = (deltaY * this.motion.x) / this.motion.y
             } else if (deltaX === Infinity && deltaY === Infinity) {
                 break
             } else closest = 'none'
 
             const xBeforeChange = currentX
             const yBeforeChange = currentY
-            if (this.world.getBlock(currentX + deltaX, currentY)?.block?.isSolid) {
+            if (
+                this.world.getBlock(currentX + deltaX, currentY)?.block?.isSolid
+            ) {
                 if ((closest === 'x' || closest === 'none') && !isXBlocked) {
                     currentX = Math.max(minX, Math.min(maxX, currentX + deltaX))
                     if (this.motion.x > 0) currentX -= 0.001
@@ -120,7 +128,9 @@ export default class Player {
                     isXBlocked = true
                 }
             }
-            if (this.world.getBlock(currentX, currentY + deltaY)?.block?.isSolid) {
+            if (
+                this.world.getBlock(currentX, currentY + deltaY)?.block?.isSolid
+            ) {
                 if ((closest === 'y' || closest === 'none') && !isYBlocked) {
                     currentY = Math.max(minY, Math.min(maxY, currentY + deltaY))
                     if (this.motion.y > 0) currentY -= 0.001

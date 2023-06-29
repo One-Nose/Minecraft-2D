@@ -58,8 +58,8 @@ export default class PRNG {
     hash(hash: object): number {
         const string = JSON.stringify(hash)
 
-        let hash1 = 0xDEADBEEF ^ this.seed
-        let hash2 = 0x41C6CE57 ^ this.seed
+        let hash1 = 0xdeadbeef ^ this.seed
+        let hash2 = 0x41c6ce57 ^ this.seed
 
         for (let i = 0; i < string.length; i++) {
             const char = string.charCodeAt(i)
@@ -67,11 +67,13 @@ export default class PRNG {
             hash2 = Math.imul(hash2 ^ char, 1597334677)
         }
 
-        hash1 = Math.imul(hash1 ^ (hash1 >>> 16), 2246822507)
-              ^ Math.imul(hash2 ^ (hash2 >>> 13), 3266489909)
+        hash1 =
+            Math.imul(hash1 ^ (hash1 >>> 16), 2246822507) ^
+            Math.imul(hash2 ^ (hash2 >>> 13), 3266489909)
 
-        hash2 = Math.imul(hash2 ^ (hash2 >>> 16), 2246822507)
-              ^ Math.imul(hash1 ^ (hash1 >>> 13), 3266489909)
+        hash2 =
+            Math.imul(hash2 ^ (hash2 >>> 16), 2246822507) ^
+            Math.imul(hash1 ^ (hash1 >>> 13), 3266489909)
 
         return 4294967296 * (2097151 & hash2) + (hash1 >>> 0)
     }
@@ -103,7 +105,7 @@ export default class PRNG {
      * @returns A random number between 0 and 1 (not including 1)
      */
     getNumber(request: PRNGRequest): number {
-        const object = {...this.object, $: request}
+        const object = { ...this.object, $: request }
         let number
         if (this.parent !== undefined) {
             number = this.parent.hash(object)

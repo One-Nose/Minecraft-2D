@@ -1,4 +1,4 @@
-import { Assets, Texture } from 'pixi.js';
+import { Assets, Texture } from 'pixi.js'
 import GrassBlock from 'assets/grass_block.png'
 import Stone from 'assets/stone.png'
 
@@ -13,14 +13,8 @@ export async function initAssets(): Promise<void> {
                 {
                     name: 'blocks',
                     assets: [
-                        {
-                            name: 'stone',
-                            srcs: Stone,
-                        },
-                        {
-                            name: 'grass_block',
-                            srcs: GrassBlock,
-                        },
+                        { name: 'stone', srcs: Stone },
+                        { name: 'grass_block', srcs: GrassBlock },
                     ],
                 },
             ],
@@ -36,7 +30,10 @@ interface Bundle {
  * Loads a bundle into `textures`
  * @param bundle The name of the bundle
  */
-export async function loadBundle(bundle: string, transform?: (texture: Texture) => void): Promise<void> {
+export async function loadBundle(
+    bundle: string,
+    transform?: (texture: Texture) => void
+): Promise<void> {
     const loadedBundle: Bundle = await Assets.loadBundle(bundle)
     if (transform !== undefined) {
         for (const texture in loadedBundle) {
@@ -46,6 +43,4 @@ export async function loadBundle(bundle: string, transform?: (texture: Texture) 
     textures[bundle] = loadedBundle
 }
 
-export const textures: {
-    [bundle: string]: Bundle
-} = {}
+export const textures: { [bundle: string]: Bundle } = {}

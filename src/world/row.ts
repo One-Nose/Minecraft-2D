@@ -40,7 +40,10 @@ export default class Row {
             y: y,
         })
 
-        this.blocks = Array.from(Array(Row.LENGTH), (_, index) => new Block(this, index, 'air'))
+        this.blocks = Array.from(
+            Array(Row.LENGTH),
+            (_, index) => new Block(this, index, 'air')
+        )
     }
 
     /**
@@ -49,10 +52,14 @@ export default class Row {
     load(): void {
         if (!this.isLoaded) {
             for (const block of this.blocks) {
-                block.setBlock(this.prng.getBool({
-                    request: 'load block',
-                    block: block.x,
-                }) ? 'air' : 'stone')
+                block.setBlock(
+                    this.prng.getBool({
+                        request: 'load block',
+                        block: block.x,
+                    })
+                        ? 'air'
+                        : 'stone'
+                )
                 block.load()
             }
             this.isLoaded = true

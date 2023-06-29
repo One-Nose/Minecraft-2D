@@ -1,7 +1,7 @@
-import { textures } from "graphics/assets"
-import { Texture } from "pixi.js"
+import { textures } from 'graphics/assets'
+import { Texture } from 'pixi.js'
 
-export const blockRegistry: {[id: string]: BlockRegistry} = {}
+export const blockRegistry: { [id: string]: BlockRegistry } = {}
 
 interface BlockRegistryOptions {
     /**
@@ -36,6 +36,9 @@ export class BlockRegistry {
  * @param id The block's ID
  * @param options Optional attributes for the block
  */
-export function registerBlock(id: string, options: BlockRegistryOptions = {}): void {
+export function registerBlock(
+    id: string,
+    options: BlockRegistryOptions = {}
+): void {
     blockRegistry[id] = new BlockRegistry(id, options)
 }

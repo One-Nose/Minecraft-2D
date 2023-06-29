@@ -10,7 +10,7 @@ declare global {
     var MC: any
 }
 
-(async () => {
+;(async () => {
     await initAssets()
     await loadBundle('blocks', (texture) => {
         texture.baseTexture.setSize(Block.SIZE, Block.SIZE)

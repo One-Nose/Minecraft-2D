@@ -1,7 +1,7 @@
-import { BlockRegistry, blockRegistry } from "blockRegistry"
-import { Container, Sprite, Texture } from "pixi.js"
-import Row from "./row"
-import World from "./world"
+import { BlockRegistry, blockRegistry } from 'blockRegistry'
+import { Container, Sprite, Texture } from 'pixi.js'
+import Row from './row'
+import World from './world'
 
 /**
  * Represents a block
@@ -9,13 +9,13 @@ import World from "./world"
 export default class Block {
     /** The length of the edge of a block in pixels */
     static SIZE = 64
-    
+
     /** The block's skew angle */
     static SKEW = Math.PI / 4
 
     /** The length of the shrinking effect on the top and side of the block */
     static SIZE_3D = Block.SIZE / 2
-    
+
     /** The block registry */
     block: BlockRegistry
 
@@ -27,10 +27,10 @@ export default class Block {
 
     /** `true` if the block is shadowed */
     isDark: boolean
-    
+
     /** `true` if the block's sprite is loaded */
     isLoaded: boolean
-    
+
     /** The block's row */
     row: Row
 
@@ -69,7 +69,7 @@ export default class Block {
         this.side.x = Block.SIZE
 
         this.side.skew.y = -Block.SKEW
-        this.top.skew.x = Block.SKEW - Math.PI / 2 
+        this.top.skew.x = Block.SKEW - Math.PI / 2
 
         this.top.height = Block.SIZE_3D
         this.side.width = Block.SIZE_3D
@@ -99,9 +99,9 @@ export default class Block {
                 this.isDark = true
             }
 
-            this.front.tint = 0xFFFFFF
-            this.top.tint = 0xBBBBBB
-            this.side.tint = 0xCCCCCC
+            this.front.tint = 0xffffff
+            this.top.tint = 0xbbbbbb
+            this.side.tint = 0xcccccc
 
             if (this.isDark) {
                 this.front.tint -= 0x444444
@@ -109,7 +109,9 @@ export default class Block {
                 this.side.tint -= 0x444444
             }
 
-            this.top.visible = !this.row.chunk.rows[this.row.y + 1]?.blocks[this.x]?.block?.isSolid
+            this.top.visible =
+                !this.row.chunk.rows[this.row.y + 1]?.blocks[this.x]?.block
+                    ?.isSolid
             this.side.visible = !this.row.blocks[this.x + 1]?.block?.isSolid
         }
     }

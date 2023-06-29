@@ -30,14 +30,7 @@ export default {
         }),
     ],
     resolve: {
-        extensions: [
-            '.js',
-            '.ts',
-            '.tsx',
-        ],
-        modules: [
-            resolve(__dirname, 'src'),
-            'node_modules',
-        ],
+        extensions: ['.js', '.ts', '.tsx'],
+        modules: [resolve(__dirname, 'src'), 'node_modules'],
     },
 }

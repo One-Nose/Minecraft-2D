@@ -48,7 +48,10 @@ export default class Chunk {
         this.container.x = this.x * Row.WIDTH
         world.app.stage.addChild(this.container)
 
-        this.rows = Array.from(Array(World.HEIGHT), (_, index) => new Row(this, index))
+        this.rows = Array.from(
+            Array(World.HEIGHT),
+            (_, index) => new Row(this, index)
+        )
     }
 
     /**
@@ -60,10 +63,15 @@ export default class Chunk {
                 row.load()
             }
             for (const x in this.heights) {
-                if (this.prng.getBool({
-                    request: 'load grass',
-                    x: x,
-                }, this.heights[x] / (World.HEIGHT - 1))) {
+                if (
+                    this.prng.getBool(
+                        {
+                            request: 'load grass',
+                            x: x,
+                        },
+                        this.heights[x] / (World.HEIGHT - 1)
+                    )
+                ) {
                     this.rows[this.heights[x]].blocks[x].setBlock('grass_block')
                 }
             }
@@ -78,7 +86,8 @@ export default class Chunk {
         this.container.pivot.x = this.world.player.x * Block.SIZE
         this.container.pivot.y = (63 - this.world.player.y) * Block.SIZE
 
-        const x = this.world.app.stage.x + this.container.x - this.container.pivot.x
+        const x =
+            this.world.app.stage.x + this.container.x - this.container.pivot.x
         if (-Row.WIDTH < x && x < this.world.app.screen.width) {
             this.container.visible = true
             for (const row of this.rows) {
