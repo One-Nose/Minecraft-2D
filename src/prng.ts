@@ -1,3 +1,6 @@
+/**
+ * An object that defines a specific PRNG child
+ */
 interface PRNGObject {
     /** The branch's type */
     type: string
@@ -5,6 +8,10 @@ interface PRNGObject {
     [key: string]: any
 }
 
+/**
+ * A request for a random number sent to the PRNG,
+ * sending the same request twice will produce the same result
+ */
 interface PRNGRequest {
     /** The request type */
     request: string
@@ -28,11 +35,11 @@ export default class PRNG {
     /** The PRNG's parent */
     parent?: PRNG
 
-    /** Signed seed */
+    /** A permanent signed seed */
     seed: number
 
     /**
-     * @param parent The PRNG parent of this PRNG
+     * @param parent The optional PRNG parent of this PRNG
      * @param object The object that defines the PRNG
      */
     constructor(parent?: PRNG, object: object = {}) {

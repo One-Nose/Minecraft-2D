@@ -1,8 +1,12 @@
 import { textures } from 'graphics/assets'
 import { Texture } from 'pixi.js'
 
+/** Contains all block types in the game */
 export const blockRegistry: { [id: string]: BlockRegistry } = {}
 
+/**
+ * An object that defines a block's attributes
+ */
 interface BlockRegistryOptions {
     /**
      * Whether the block is visible
@@ -33,6 +37,7 @@ export class BlockRegistry {
 }
 
 /**
+ * Creates a new block type and adds it to the registry
  * @param id The block's ID
  * @param options Optional attributes for the block
  */

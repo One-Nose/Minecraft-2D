@@ -60,7 +60,7 @@ export default class World {
     }
 
     /**
-     * Generates the unloaded chunks in the world
+     * Loads the unloaded chunks in the world
      */
     load(): void {
         for (const chunk of this.chunks) {

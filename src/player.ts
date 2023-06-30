@@ -15,10 +15,10 @@ export default class Player {
     /** The player's world */
     world: World
 
-    /** The X position of the player in blocks */
+    /** The horizontal position of the player in blocks */
     x: number
 
-    /** The Y position of the player in blocks */
+    /** The vertical position of the player in blocks */
     y: number
 
     /**
@@ -41,7 +41,7 @@ export default class Player {
     }
 
     /**
-     * Moves the player according to it's `motion`
+     * Moves the player according to it's `motion` vector
      */
     move(): void {
         let minX: number, maxX: number, minY: number, maxY: number

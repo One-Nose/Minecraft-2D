@@ -55,7 +55,7 @@ export default class Chunk {
     }
 
     /**
-     * Generates the blocks in the chunk if not loaded
+     * Generates the blocks in the chunk if it's not loaded
      */
     load(): void {
         if (!this.isLoaded) {
