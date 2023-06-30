@@ -15,10 +15,10 @@ export default class Player {
     /** The player's world */
     world: World
 
-    /** The horizontal position of the player in blocks */
+    /** The horizontal position of the player's center in blocks */
     x: number
 
-    /** The vertical position of the player in blocks */
+    /** The vertical position of the player's feet in blocks */
     y: number
 
     /**
