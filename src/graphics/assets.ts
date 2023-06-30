@@ -46,4 +46,5 @@ export async function loadBundle(
     textures[bundle] = loadedBundle
 }
 
+/** Contains all asset bundles */
 export const textures: { [bundle: string]: Bundle } = {}
