@@ -5,6 +5,7 @@ import World from 'world/world'
 import { registerBlock } from 'blockRegistry'
 import { SCALE_MODES } from 'pixi.js'
 import Block from 'world/block'
+import Player from 'player'
 
 declare global {
     var MC: { [name: string]: object }
@@ -15,6 +16,12 @@ declare global {
     await loadBundle('blocks', (texture) => {
         texture.baseTexture.setSize(Block.SIZE, Block.SIZE)
         texture.baseTexture.scaleMode = SCALE_MODES.NEAREST
+    })
+    await loadBundle('player', (texture) => {
+        texture.baseTexture.setSize(
+            Player.WIDTH * Block.SIZE,
+            Player.HEIGHT * Block.SIZE
+        )
     })
 
     registerBlock('air', { isSolid: false })

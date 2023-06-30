@@ -1,6 +1,7 @@
 import { Assets, Texture } from 'pixi.js'
 import GrassBlock from 'assets/grass_block.png'
 import Stone from 'assets/stone.png'
+import Steve from 'assets/steve.png'
 
 /**
  * Loads all assets asynchronously
@@ -17,6 +18,7 @@ export async function initAssets(): Promise<void> {
                         { name: 'grass_block', srcs: GrassBlock },
                     ],
                 },
+                { name: 'player', assets: [{ name: 'steve', srcs: Steve }] },
             ],
         },
     })

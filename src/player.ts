@@ -1,3 +1,4 @@
+import { textures } from 'graphics/assets'
 import { Sprite, Texture } from 'pixi.js'
 import Block from 'world/block'
 import World from 'world/world'
@@ -6,6 +7,12 @@ import World from 'world/world'
  * Represents a player
  */
 export default class Player {
+    /** A player's width */
+    static WIDTH = 0.6
+
+    /** A player's height */
+    static HEIGHT = 1.8
+
     /** The player's current motion vector in blocks/tick */
     motion: { x: number; y: number }
 
@@ -27,7 +34,7 @@ export default class Player {
      * @param y The Y position of the player in blocks
      */
     constructor(world: World, x: number, y: number) {
-        this.sprite = new Sprite(Texture.WHITE)
+        this.sprite = new Sprite(textures.player.steve)
         this.sprite.anchor.x = 0.5
         this.sprite.anchor.y = 1
         this.sprite.x = (Block.SIZE_3D * Math.cos(Block.SKEW)) / 2
