@@ -7,7 +7,7 @@ import { SCALE_MODES } from 'pixi.js'
 import Block from 'world/block'
 
 declare global {
-    var MC: any
+    var MC: { [name: string]: object }
 }
 
 ;(async () => {
