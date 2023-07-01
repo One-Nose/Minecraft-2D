@@ -1,4 +1,3 @@
-import { Application } from 'pixi.js'
 import Player from 'player'
 import PRNG from 'prng'
 import Block from './block'
