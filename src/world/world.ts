@@ -55,8 +55,8 @@ export default class World {
      * @returns The block
      */
     getBlock(x: number, y: number): Block | undefined {
-        return this.chunks[Math.floor(x / Row.LENGTH)]?.rows?.[Math.floor(y)]
-            ?.blocks?.[Math.floor(x % Row.LENGTH)]
+        return this.chunks[Math.floor(x / Row.LENGTH)]?.rows[Math.floor(y)]
+            ?.blocks[Math.floor(x % Row.LENGTH)]
     }
 
     /**

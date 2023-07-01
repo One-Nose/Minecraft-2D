@@ -111,8 +111,8 @@ export default class Block {
 
             this.top.visible =
                 !this.row.chunk.rows[this.row.y + 1]?.blocks[this.x]?.block
-                    ?.isSolid
-            this.side.visible = !this.row.blocks[this.x + 1]?.block?.isSolid
+                    .isSolid
+            this.side.visible = !this.row.blocks[this.x + 1]?.block.isSolid
         }
     }
 
