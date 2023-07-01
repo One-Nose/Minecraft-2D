@@ -1,5 +1,5 @@
 import { textures } from 'graphics/assets'
-import { Sprite, Texture } from 'pixi.js'
+import { Sprite } from 'pixi.js'
 import Block from 'world/block'
 import World from 'world/world'
 
