@@ -1,4 +1,4 @@
-import app from 'graphics/app'
+import { app, setWorld } from 'graphics/app'
 import { initAssets, loadBundle, textures } from 'graphics/assets'
 import * as PIXI from 'pixi.js'
 import World from 'world/world'
@@ -28,12 +28,9 @@ declare global {
     registerBlock('grass_block')
     registerBlock('stone')
 
-    const world = new World(app)
+    const world = new World()
     world.load()
-
-    app.ticker.add(() => {
-        world.tick()
-    })
+    setWorld(world)
 
     globalThis.MC = {
         app: app,

@@ -1,8 +1,20 @@
 import { Application } from 'pixi.js'
+import World from 'world/world'
+
+let world: World | null = null
+
+/**
+ * Sets the current world
+ * @param chosenWorld The world to set to
+ */
+export function setWorld(chosenWorld: World): void {
+    world = chosenWorld
+}
 
 const canvas = document.getElementById('game') as HTMLCanvasElement
 
-const app: Application<HTMLCanvasElement> = new Application({
+/** The main graphics application */
+export const app: Application<HTMLCanvasElement> = new Application({
     backgroundColor: 0x78a7ff,
     resizeTo: canvas,
     view: canvas,
@@ -16,4 +28,6 @@ addEventListener('resize', () => {
 })
 dispatchEvent(new Event('resize'))
 
-export default app
+app.ticker.add(() => {
+    if (world !== null) world.tick()
+})

@@ -3,6 +3,7 @@ import Row from './row'
 import World from './world'
 import Block from './block'
 import PRNG from 'prng'
+import { app } from 'graphics/app'
 
 /**
  * Represents a single chunk consisting of 16x64 blocks
@@ -46,7 +47,7 @@ export default class Chunk {
 
         this.container = new Container()
         this.container.x = this.x * Row.WIDTH
-        world.app.stage.addChild(this.container)
+        app.stage.addChild(this.container)
 
         this.rows = Array.from(
             Array(World.HEIGHT),
@@ -86,9 +87,8 @@ export default class Chunk {
         this.container.pivot.x = this.world.player.x * Block.SIZE
         this.container.pivot.y = (63 - this.world.player.y) * Block.SIZE
 
-        const x =
-            this.world.app.stage.x + this.container.x - this.container.pivot.x
-        if (-Row.WIDTH < x && x < this.world.app.screen.width) {
+        const x = app.stage.x + this.container.x - this.container.pivot.x
+        if (-Row.WIDTH < x && x < app.screen.width) {
             this.container.visible = true
             for (const row of this.rows) {
                 row.update()
