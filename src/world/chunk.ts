@@ -66,7 +66,7 @@ export default class Chunk {
                 if (
                     this.prng.getBool(
                         {
-                            request: 'load grass',
+                            request: 'load_grass',
                             x: x,
                         },
                         this.heights[x] / (World.HEIGHT - 1)
