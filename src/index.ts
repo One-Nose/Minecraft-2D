@@ -1,4 +1,4 @@
-import { app, setWorld } from 'graphics/app'
+import { app, setWorld, keyboard } from 'graphics/app'
 import { initAssets, loadBundle, textures } from 'graphics/assets'
 import * as PIXI from 'pixi.js'
 import World from 'world/world'
@@ -32,10 +32,5 @@ declare global {
     world.load()
     setWorld(world)
 
-    globalThis.MC = {
-        app: app,
-        textures: textures,
-        PIXI: PIXI,
-        world: world,
-    }
+    globalThis.MC = { app, textures, PIXI, world, keyboard }
 })()

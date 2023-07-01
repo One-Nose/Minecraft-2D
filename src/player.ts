@@ -1,4 +1,4 @@
-import { app } from 'graphics/app'
+import { app, keyboard } from 'graphics/app'
 import { textures } from 'graphics/assets'
 import { Sprite } from 'pixi.js'
 import Block from 'world/block'
@@ -259,6 +259,12 @@ export default class Player {
      * Runs every tick
      */
     tick(): void {
+        this.motion.x =
+            keyboard.has('KeyA') && !keyboard.has('KeyD')
+                ? -0.1
+                : !keyboard.has('KeyA') && keyboard.has('KeyD')
+                ? 0.1
+                : 0
         this.motion.y = -0.1
         this.move()
     }

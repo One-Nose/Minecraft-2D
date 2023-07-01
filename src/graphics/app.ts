@@ -28,6 +28,15 @@ addEventListener('resize', () => {
 })
 dispatchEvent(new Event('resize'))
 
+/** Contains the key codes of all the currently pressed keys */
+export const keyboard: Set<string> = new Set()
+addEventListener('keydown', (event) => {
+    keyboard.add(event.code)
+})
+addEventListener('keyup', (event) => {
+    keyboard.delete(event.code)
+})
+
 app.ticker.add(() => {
     if (world !== null) world.tick()
 })
