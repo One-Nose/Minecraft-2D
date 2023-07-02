@@ -3,6 +3,8 @@ import PRNG from 'prng'
 import Block from './block'
 import Chunk from './chunk'
 import Row from './row'
+import { Container } from 'pixi.js'
+import { app } from 'graphics/app'
 
 /**
  * Represents a single world
@@ -20,6 +22,9 @@ export default class World {
     /** Array of chunks */
     chunks: Chunk[]
 
+    /** Contains the world's display */
+    container: Container
+
     /** `true` if the world is loaded */
     isLoaded: boolean
 
@@ -35,6 +40,9 @@ export default class World {
     constructor() {
         this.isLoaded = false
         this.prng = new PRNG()
+
+        this.container = new Container()
+        app.stage.addChild(this.container)
 
         this.chunks = Array.from(
             Array(World.CHUNKS),
@@ -76,6 +84,9 @@ export default class World {
      * Updates the rendering of the world
      */
     update(): void {
+        this.player.update()
+        this.container.pivot.x = this.player.sprite.x
+        this.container.pivot.y = this.player.sprite.y
         for (const chunk of this.chunks) {
             chunk.update()
         }

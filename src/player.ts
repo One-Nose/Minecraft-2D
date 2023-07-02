@@ -1,4 +1,4 @@
-import { app, keyboard } from 'graphics/app'
+import { keyboard } from 'graphics/app'
 import { textures } from 'graphics/assets'
 import { Sprite } from 'pixi.js'
 import Block from 'world/block'
@@ -38,9 +38,9 @@ export default class Player {
         this.sprite = new Sprite(textures.player.steve)
         this.sprite.anchor.x = 0.5
         this.sprite.anchor.y = 1
-        this.sprite.x = (Block.SIZE_3D * Math.cos(Block.SKEW)) / 2
-        this.sprite.y = Block.SIZE - this.sprite.x
-        app.stage.addChild(this.sprite)
+        this.sprite.pivot.x = (-Block.SIZE_3D * Math.cos(Block.SKEW)) / 2
+        this.sprite.pivot.y = -this.sprite.pivot.x
+        world.container.addChild(this.sprite)
 
         this.motion = { x: 0, y: 0 }
         this.world = world
@@ -284,5 +284,13 @@ export default class Player {
      */
     topBlockEdge(): number {
         return Math.floor(this.top()) + 0.999
+    }
+
+    /**
+     * Updates the player's display
+     */
+    update(): void {
+        this.sprite.x = this.x * Block.SIZE
+        this.sprite.y = (World.HEIGHT - this.y) * Block.SIZE
     }
 }
