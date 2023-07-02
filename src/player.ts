@@ -38,7 +38,7 @@ export default class Player {
         this.sprite = new Sprite(textures.player.steve)
         this.sprite.anchor.x = 0.5
         this.sprite.anchor.y = 1
-        this.sprite.pivot.x = (-Block.SIZE_3D * Math.cos(Block.SKEW)) / 2
+        this.sprite.pivot.x = -Block.ACTUAL_SIZE_3D / 2
         this.sprite.pivot.y = -this.sprite.pivot.x
         world.playerContainer.addChild(this.sprite)
 
