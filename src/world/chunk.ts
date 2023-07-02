@@ -85,7 +85,7 @@ export default class Chunk {
      */
     update(): void {
         const thisX = this.container.x
-        const worldX = this.world.container.pivot.x - app.screen.width / 2
+        const worldX = app.stage.pivot.x - app.screen.width / 2
         if (
             worldX - Row.LENGTH * Block.SIZE <= thisX &&
             thisX <= worldX + app.screen.width

@@ -85,8 +85,8 @@ export default class World {
      */
     update(): void {
         this.player.update()
-        this.container.pivot.x = this.player.sprite.x
-        this.container.pivot.y = this.player.sprite.y
+        app.stage.pivot.x = this.player.sprite.x
+        app.stage.pivot.y = this.player.sprite.y
         for (const chunk of this.chunks) {
             chunk.update()
         }
