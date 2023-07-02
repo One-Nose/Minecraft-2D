@@ -25,6 +25,9 @@ export default class World {
     /** Contains everything behind the player */
     backContainer: Container
 
+    /** Contains everything that is in front of the player */
+    foreContainer: Container
+
     /** `true` if the world is loaded */
     isLoaded: boolean
 
@@ -46,9 +49,11 @@ export default class World {
 
         this.backContainer = new Container()
         this.playerContainer = new Container()
+        this.foreContainer = new Container()
 
         app.stage.addChild(this.backContainer)
         app.stage.addChild(this.playerContainer)
+        app.stage.addChild(this.foreContainer)
 
         this.chunks = Array.from(
             Array(World.CHUNKS),
