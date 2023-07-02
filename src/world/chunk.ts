@@ -21,6 +21,16 @@ export default class Chunk {
     /** `true` if the chunk is loaded */
     isLoaded: boolean
 
+    /** The mask container's mask */
+    mask: Container
+
+    /**
+     * A fore container that contains the sides and tops of the blocks,
+     * and masks them so that only the parts that should be in front of
+     * the player would be displayed, to create a 3D illusion
+     */
+    maskContainer: Container
+
     /** The chunk's PRNG */
     prng: PRNG
 
@@ -50,12 +60,19 @@ export default class Chunk {
 
         this.backContainer = new Container()
         this.foreContainer = new Container()
+        this.maskContainer = new Container()
 
         this.backContainer.x = this.x * Row.WIDTH
         this.foreContainer.x = this.backContainer.x
+        this.maskContainer.x = this.backContainer.x
+
+        this.mask = new Container()
+        this.maskContainer.mask = this.mask
+        this.maskContainer.addChild(this.mask)
 
         world.backContainer.addChild(this.backContainer)
         world.foreContainer.addChild(this.foreContainer)
+        world.foreContainer.addChild(this.maskContainer)
 
         this.rows = Array.from(
             Array(World.HEIGHT),
@@ -100,12 +117,14 @@ export default class Chunk {
         ) {
             this.backContainer.visible = true
             this.foreContainer.visible = true
+            this.maskContainer.visible = true
             for (const row of this.rows) {
                 row.update()
             }
         } else {
             this.backContainer.visible = false
             this.foreContainer.visible = false
+            this.maskContainer.visible = false
         }
     }
 }
