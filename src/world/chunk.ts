@@ -47,7 +47,7 @@ export default class Chunk {
 
         this.container = new Container()
         this.container.x = this.x * Row.WIDTH
-        world.container.addChild(this.container)
+        world.backContainer.addChild(this.container)
 
         this.rows = Array.from(
             Array(World.HEIGHT),

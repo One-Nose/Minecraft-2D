@@ -40,7 +40,7 @@ export default class Player {
         this.sprite.anchor.y = 1
         this.sprite.pivot.x = (-Block.SIZE_3D * Math.cos(Block.SKEW)) / 2
         this.sprite.pivot.y = -this.sprite.pivot.x
-        world.container.addChild(this.sprite)
+        world.playerContainer.addChild(this.sprite)
 
         this.motion = { x: 0, y: 0 }
         this.world = world

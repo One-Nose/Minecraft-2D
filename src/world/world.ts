@@ -22,14 +22,17 @@ export default class World {
     /** Array of chunks */
     chunks: Chunk[]
 
-    /** Contains the world's display */
-    container: Container
+    /** Contains everything behind the player */
+    backContainer: Container
 
     /** `true` if the world is loaded */
     isLoaded: boolean
 
     /** The main player of the world */
     player: Player
+
+    /** Contains the player */
+    playerContainer: Container
 
     /** The world's pseudo-random number generator */
     prng: PRNG
@@ -41,8 +44,11 @@ export default class World {
         this.isLoaded = false
         this.prng = new PRNG()
 
-        this.container = new Container()
-        app.stage.addChild(this.container)
+        this.backContainer = new Container()
+        this.playerContainer = new Container()
+
+        app.stage.addChild(this.backContainer)
+        app.stage.addChild(this.playerContainer)
 
         this.chunks = Array.from(
             Array(World.CHUNKS),
