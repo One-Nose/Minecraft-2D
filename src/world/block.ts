@@ -22,9 +22,6 @@ export default class Block {
     /** The block's front sprite */
     front: Sprite
 
-    /** A container for the block's sprites */
-    container: Container
-
     /** `true` if the block is shadowed */
     isDark: boolean
 
@@ -55,27 +52,25 @@ export default class Block {
         this.isLoaded = false
         this.row = row
 
-        this.container = new Container()
-        this.container.x = x * Block.SIZE
-        this.container.y = (World.HEIGHT - row.y - 1) * Block.SIZE
-
         this.front = new Sprite()
-        this.container.addChild(this.front)
-
         this.top = new Sprite()
         this.side = new Sprite()
 
+        this.front.x = x * Block.SIZE
+        this.front.y = (World.HEIGHT - row.y - 1) * Block.SIZE
+
+        this.top.x = this.front.x
+        this.top.y = this.front.y
         this.top.anchor.y = 1
-        this.side.x = Block.SIZE
+
+        this.side.x = this.front.x + Block.SIZE
+        this.side.y = this.front.y
 
         this.side.skew.y = -Block.SKEW
         this.top.skew.x = Block.SKEW - Math.PI / 2
 
         this.top.height = Block.SIZE_3D
         this.side.width = Block.SIZE_3D
-
-        this.container.addChild(this.top)
-        this.container.addChild(this.side)
     }
 
     /**
@@ -83,7 +78,10 @@ export default class Block {
      */
     load(): void {
         if (!this.isLoaded) {
-            this.row.chunk.container.addChild(this.container)
+            this.row.chunk.foreContainer.addChild(this.front)
+            this.row.chunk.backContainer.addChild(this.top)
+            this.row.chunk.backContainer.addChild(this.side)
+
             this.isLoaded = true
         }
     }
@@ -124,7 +122,9 @@ export default class Block {
         this.block = blockRegistry[id]
 
         if (this.block.isSolid) {
-            this.container.visible = true
+            this.front.visible = true
+            this.top.visible = true
+            this.side.visible = true
 
             this.front.texture = this.block.texture
             this.top.texture = this.block.texture
@@ -134,7 +134,9 @@ export default class Block {
                 this.row.chunk.heights[this.x] = this.row.y
             }
         } else {
-            this.container.visible = false
+            this.front.visible = false
+            this.top.visible = false
+            this.side.visible = false
 
             this.front.texture = Texture.EMPTY
             this.top.texture = Texture.EMPTY

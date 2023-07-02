@@ -9,11 +9,11 @@ import Block from './block'
  * Represents a single chunk consisting of 16x64 blocks
  */
 export default class Chunk {
-    /** Array of rows of blocks, from bottom to top */
-    rows: Row[]
+    /** The container of the chunk's graphics behind the player */
+    backContainer: Container
 
-    /** The container of the chunk's graphics */
-    container: Container
+    /** The container of the chunk's graphics in front of the player */
+    foreContainer: Container
 
     /** Array of heights of the highest block in each y-level */
     heights: number[]
@@ -23,6 +23,9 @@ export default class Chunk {
 
     /** The chunk's PRNG */
     prng: PRNG
+
+    /** Array of rows of blocks, from bottom to top */
+    rows: Row[]
 
     /** The chunk's world */
     world: World
@@ -45,9 +48,14 @@ export default class Chunk {
             x: x,
         })
 
-        this.container = new Container()
-        this.container.x = this.x * Row.WIDTH
-        world.backContainer.addChild(this.container)
+        this.backContainer = new Container()
+        this.foreContainer = new Container()
+
+        this.backContainer.x = this.x * Row.WIDTH
+        this.foreContainer.x = this.backContainer.x
+
+        world.backContainer.addChild(this.backContainer)
+        world.foreContainer.addChild(this.foreContainer)
 
         this.rows = Array.from(
             Array(World.HEIGHT),
@@ -84,18 +92,20 @@ export default class Chunk {
      * Updates the rendering of the chunk
      */
     update(): void {
-        const thisX = this.container.x
+        const thisX = this.backContainer.x
         const worldX = app.stage.pivot.x - app.screen.width / 2
         if (
             worldX - Row.LENGTH * Block.SIZE <= thisX &&
             thisX <= worldX + app.screen.width
         ) {
-            this.container.visible = true
+            this.backContainer.visible = true
+            this.foreContainer.visible = true
             for (const row of this.rows) {
                 row.update()
             }
         } else {
-            this.container.visible = false
+            this.backContainer.visible = false
+            this.foreContainer.visible = false
         }
     }
 }
