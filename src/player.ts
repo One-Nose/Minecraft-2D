@@ -37,6 +37,9 @@ export default class Player {
     /** The amount of blocks the player walks in ~1/20 seconds */
     static SPEED = 4.317 / 20
 
+    /** Wether the player has pressed the jump button and will jump in the next three ticks */
+    jumps: boolean
+
     /** The player's current motion vector in (blocks / 3 ticks) */
     motion: { x: Fraction; y: Fraction }
 
@@ -69,6 +72,7 @@ export default class Player {
         this.world = world
         this.x = fraction(x)
         this.y = fraction(y)
+        this.jumps = false
     }
 
     /**
@@ -322,25 +326,30 @@ export default class Player {
      * Runs every tick
      */
     tick(): void {
-        if (this.world.ticks % 3 === 0) {
-            this.motion.y = chain(this.motion.y)
-                .subtract(fraction(World.GRAVITY))
-                .multiply(0.98)
-                .done() as Fraction
-
-            if (
-                (keyboard.has('KeyW') || keyboard.has('Space')) &&
-                this.isBottomSolid()
-            )
-                this.motion.y = fraction(Player.JUMP_SPEED)
-        }
-
         this.motion.x =
             keyboard.has('KeyA') && !keyboard.has('KeyD')
                 ? unaryMinus(fraction(Player.SPEED))
                 : !keyboard.has('KeyA') && keyboard.has('KeyD')
                 ? fraction(Player.SPEED)
                 : fraction(0)
+
+        if (
+            (keyboard.has('KeyW') || keyboard.has('Space')) &&
+            this.isBottomSolid()
+        )
+            this.jumps = true
+
+        if (this.world.ticks % 3 === 0) {
+            this.motion.y = chain(this.motion.y)
+                .subtract(fraction(World.GRAVITY))
+                .multiply(0.98)
+                .done() as Fraction
+
+            if (this.jumps) {
+                this.motion.y = fraction(Player.JUMP_SPEED)
+                this.jumps = false
+            }
+        }
 
         this.motion.x = round(this.motion.x, 5)
         this.motion.y = round(this.motion.y, 5)
