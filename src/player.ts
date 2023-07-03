@@ -279,15 +279,11 @@ export default class Player {
         if (nextY === null && nextX !== null) return { x: nextX, y: this.y }
 
         if (nextX !== null && nextY !== null) {
-            const xyRatio = chain(this.motion.x)
-                .divide(this.motion.y)
-                .abs()
-                .done() as Fraction
+            const xyRatio = divide(this.motion.x, this.motion.y) as Fraction
             const distanceX = subtract(nextX, this.x)
             const distanceY = subtract(nextY, this.y)
 
-            return abs(distanceX) <
-                chain(distanceY).abs().multiply(xyRatio).done()
+            return abs(distanceX) < abs(multiply(distanceY, xyRatio))
                 ? {
                       x: nextX,
                       y: add(this.y, divide(distanceX, xyRatio) as Fraction),
