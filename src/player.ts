@@ -60,7 +60,7 @@ export default class Player {
      * @param x The X position of the player in blocks
      * @param y The Y position of the player in blocks
      */
-    constructor(world: World, x: number, y: number) {
+    constructor(world: World) {
         this.sprite = new Sprite(textures.player.steve)
         this.sprite.anchor.x = 0.5
         this.sprite.anchor.y = 1
@@ -70,9 +70,10 @@ export default class Player {
 
         this.motion = { x: fraction(0), y: fraction(0) }
         this.world = world
-        this.x = fraction(x)
-        this.y = fraction(y)
         this.jumps = false
+
+        this.x = this.y = fraction(0)
+        this.resetCoors()
     }
 
     /**
@@ -303,6 +304,14 @@ export default class Player {
     }
 
     /**
+     * Sets the X and Y values of the player to their initial values
+     */
+    resetCoors(): void {
+        this.x = fraction(World.WIDTH + 1, 2)
+        this.y = fraction(World.HEIGHT)
+    }
+
+    /**
      * Gets the X value of the right part of the player
      * @returns The X value of that part
      */
@@ -326,6 +335,11 @@ export default class Player {
      * Runs every tick
      */
     tick(): void {
+        if (keyboard.has('KeyR')) {
+            this.resetCoors()
+            this.motion.y = fraction(0)
+        }
+
         this.motion.x =
             keyboard.has('KeyA') && !keyboard.has('KeyD')
                 ? unaryMinus(fraction(Player.SPEED))

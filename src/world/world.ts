@@ -67,7 +67,7 @@ export default class World {
             Array(World.CHUNKS),
             (_, index) => new Chunk(this, index)
         )
-        this.player = new Player(this, World.WIDTH / 2 + 0.5, World.HEIGHT)
+        this.player = new Player(this)
     }
 
     /**
