@@ -187,6 +187,14 @@ export default class Player {
 
         this.x = this.motion.x === 0 ? this.x : originalX + originalMotion.x
         this.y = this.motion.y === 0 ? this.y : originalY + originalMotion.y
+
+        if (Math.abs(this.x % 1) > 0.9999)
+            this.x = Math.trunc(this.x) + Math.sign(this.x)
+        else if (Math.abs(this.x % 1) < 0.0001) this.x = Math.trunc(this.x)
+
+        if (Math.abs(this.y % 1) > 0.9999)
+            this.y = Math.trunc(this.y) + Math.sign(this.y)
+        else if (Math.abs(this.y % 1) < 0.0001) this.y = Math.trunc(this.y)
     }
 
     /**
