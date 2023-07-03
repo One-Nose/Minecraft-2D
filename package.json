@@ -23,6 +23,7 @@
     "webpack-dev-server": "^4.11.1"
   },
   "dependencies": {
+    "mathjs": "^11.8.2",
     "pixi.js": "^7.1.2"
   }
 }

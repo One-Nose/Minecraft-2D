@@ -1,6 +1,22 @@
 import { keyboard } from 'graphics/app'
 import { textures } from 'graphics/assets'
 import { Sprite } from 'pixi.js'
+import {
+    chain,
+    Fraction,
+    floor,
+    fraction,
+    add,
+    subtract,
+    abs,
+    divide,
+    multiply,
+    equal,
+    larger,
+    unaryMinus,
+    number,
+    unequal,
+} from 'mathjs'
 import Block from 'world/block'
 import World from 'world/world'
 
@@ -21,7 +37,7 @@ export default class Player {
     static SPEED = 4.317 / 20
 
     /** The player's current motion vector in (blocks / 3 ticks) */
-    motion: { x: number; y: number }
+    motion: { x: Fraction; y: Fraction }
 
     /** The player's sprite */
     sprite: Sprite
@@ -30,10 +46,10 @@ export default class Player {
     world: World
 
     /** The horizontal position of the player's center in blocks */
-    x: number
+    x: Fraction
 
     /** The vertical position of the player's feet in blocks */
-    y: number
+    y: Fraction
 
     /**
      * @param world The player's world
@@ -48,17 +64,17 @@ export default class Player {
         this.sprite.pivot.y = -this.sprite.pivot.x
         world.playerContainer.addChild(this.sprite)
 
-        this.motion = { x: 0, y: 0 }
+        this.motion = { x: fraction(0), y: fraction(0) }
         this.world = world
-        this.x = x
-        this.y = y
+        this.x = fraction(x)
+        this.y = fraction(y)
     }
 
     /**
      * Gets the Y value of the most bottom part of the player
      * @returns The Y value of that part
      */
-    bottom(): number {
+    bottom(): Fraction {
         return this.y
     }
 
@@ -67,8 +83,8 @@ export default class Player {
      * that is within the same block as the player
      * @returns The Y value of the bottom block edge
      */
-    bottomBlockEdge(): number {
-        return Math.floor(this.bottom())
+    bottomBlockEdge(): Fraction {
+        return floor(this.bottom())
     }
 
     /**
@@ -78,20 +94,24 @@ export default class Player {
      *
      * @returns The X and Y values of the two points
      */
-    farthestInSameBlock(): { x: number | null; y: number | null } {
+    farthestInSameBlock(): { x: Fraction | null; y: Fraction | null } {
         return {
-            x:
-                this.motion.x === 0
-                    ? null
-                    : this.motion.x > 0
-                    ? this.rightBlockEdge() - Player.WIDTH / 2 + 0.001
-                    : this.leftBlockEdge() + Player.WIDTH / 2,
-            y:
-                this.motion.y === 0
-                    ? null
-                    : this.motion.y > 0
-                    ? this.topBlockEdge() - Player.HEIGHT + 0.001
-                    : this.bottomBlockEdge(),
+            x: equal(this.motion.x, 0)
+                ? null
+                : larger(this.motion.x, 0)
+                ? chain(this.rightBlockEdge())
+                      .subtract(fraction(Player.WIDTH / 2))
+                      .add(fraction(0.001))
+                      .done()
+                : add(this.leftBlockEdge(), fraction(Player.WIDTH / 2)),
+            y: equal(this.motion.y, 0)
+                ? null
+                : larger(this.motion.y, 0)
+                ? chain(this.topBlockEdge())
+                      .subtract(fraction(Player.HEIGHT))
+                      .add(fraction(0.001))
+                      .done()
+                : this.bottomBlockEdge(),
         }
     }
 
@@ -101,12 +121,12 @@ export default class Player {
      */
     isBottomSolid(): boolean {
         const rightX = this.right()
-        const blockY = this.bottom() - 0.001
+        const blockY = subtract(this.bottom(), fraction(0.001))
 
-        let blockX = Math.floor(this.left())
+        let blockX = floor(this.left())
         while (blockX <= rightX) {
             if (this.world.getBlock(blockX, blockY)?.block.isSolid) return true
-            blockX++
+            blockX = add(blockX, fraction(1))
         }
         return false
     }
@@ -117,12 +137,12 @@ export default class Player {
      */
     isLeftSolid(): boolean {
         const topY = this.top()
-        const blockX = this.left() - 0.001
+        const blockX = subtract(this.left(), fraction(0.001))
 
-        let blockY = Math.floor(this.bottom())
+        let blockY = floor(this.bottom())
         while (blockY <= topY) {
             if (this.world.getBlock(blockX, blockY)?.block.isSolid) return true
-            blockY++
+            blockY = add(blockY, fraction(1))
         }
         return false
     }
@@ -133,12 +153,12 @@ export default class Player {
      */
     isRightSolid(): boolean {
         const topY = this.top()
-        const blockX = this.right() + 0.001
+        const blockX = add(this.right(), fraction(0.001))
 
-        let blockY = Math.floor(this.bottom())
+        let blockY = floor(this.bottom())
         while (blockY <= topY) {
             if (this.world.getBlock(blockX, blockY)?.block.isSolid) return true
-            blockY++
+            blockY = add(blockY, fraction(1))
         }
         return false
     }
@@ -149,12 +169,12 @@ export default class Player {
      */
     isTopSolid(): boolean {
         const rightX = this.right()
-        const blockY = this.top() + 0.001
+        const blockY = add(this.top(), fraction(0.001))
 
-        let blockX = Math.floor(this.left())
+        let blockX = floor(this.left())
         while (blockX <= rightX) {
             if (this.world.getBlock(blockX, blockY)?.block.isSolid) return true
-            blockX++
+            blockX = add(blockX, fraction(1))
         }
         return false
     }
@@ -163,8 +183,8 @@ export default class Player {
      * Gets the X value of the left part of the player
      * @returns The X value of that part
      */
-    left(): number {
-        return this.x - Player.WIDTH / 2
+    left(): Fraction {
+        return subtract(this.x, fraction(Player.WIDTH / 2))
     }
 
     /**
@@ -172,8 +192,8 @@ export default class Player {
      * that is within the same block as the player
      * @returns The X value of the left block edge
      */
-    leftBlockEdge(): number {
-        return Math.floor(this.left())
+    leftBlockEdge(): Fraction {
+        return floor(this.left())
     }
 
     /**
@@ -182,46 +202,65 @@ export default class Player {
     move(): void {
         const originalX = this.x
         const originalY = this.y
-        const originalMotion = { x: this.motion.x / 3, y: this.motion.y / 3 }
+        const originalMotion = {
+            x: divide(this.motion.x, 3) as Fraction,
+            y: divide(this.motion.y, 3) as Fraction,
+        }
 
         while (
-            Math.abs(this.x - originalX) <= Math.abs(originalMotion.x) &&
-            Math.abs(this.y - originalY) <= Math.abs(originalMotion.y)
+            chain(this.x)
+                .subtract(originalX)
+                .abs()
+                .smallerEq(abs(originalMotion.x))
+                .done() &&
+            chain(this.y)
+                .subtract(originalY)
+                .abs()
+                .smallerEq(abs(originalMotion.y))
+                .done()
         ) {
-            const isXSolid =
-                this.motion.x === 0
-                    ? false
-                    : this.motion.x > 0
-                    ? this.isRightSolid()
-                    : this.isLeftSolid()
+            const isXSolid = equal(this.motion.x, 0)
+                ? false
+                : larger(this.motion.x, 0)
+                ? this.isRightSolid()
+                : this.isLeftSolid()
 
-            const isYSolid =
-                this.motion.y === 0
-                    ? false
-                    : this.motion.y > 0
-                    ? this.isTopSolid()
-                    : this.isBottomSolid()
+            const isYSolid = equal(this.motion.y, 0)
+                ? false
+                : larger(this.motion.y, 0)
+                ? this.isTopSolid()
+                : this.isBottomSolid()
 
-            if (isXSolid) this.motion.x = 0
-            else this.x += Math.sign(this.motion.x) * 0.001
+            if (isXSolid) this.motion.x = fraction(0)
+            else if (unequal(this.motion.x, 0))
+                this.x = add(
+                    this.x,
+                    chain(this.motion.x)
+                        .sign()
+                        .multiply(0.001)
+                        .done() as Fraction
+                )
 
-            if (isYSolid) this.motion.y = 0
-            else this.y += Math.sign(this.motion.y) * 0.001
+            if (isYSolid) this.motion.y = fraction(0)
+            else if (unequal(this.motion.y, 0))
+                this.y = add(
+                    this.y,
+                    chain(this.motion.y)
+                        .sign()
+                        .multiply(0.001)
+                        .done() as Fraction
+                )
 
-            if (this.motion.x === 0 && this.motion.y === 0) return
+            if (equal(this.motion.x, 0) && equal(this.motion.y, 0)) return
             ;({ x: this.x, y: this.y } = this.nextBlockEdge())
         }
 
-        this.x = this.motion.x === 0 ? this.x : originalX + originalMotion.x
-        this.y = this.motion.y === 0 ? this.y : originalY + originalMotion.y
-
-        if (Math.abs(this.x % 1) > 0.9999)
-            this.x = Math.trunc(this.x) + Math.sign(this.x)
-        else if (Math.abs(this.x % 1) < 0.0001) this.x = Math.trunc(this.x)
-
-        if (Math.abs(this.y % 1) > 0.9999)
-            this.y = Math.trunc(this.y) + Math.sign(this.y)
-        else if (Math.abs(this.y % 1) < 0.0001) this.y = Math.trunc(this.y)
+        this.x = equal(this.motion.x, 0)
+            ? this.x
+            : add(originalX, originalMotion.x)
+        this.y = equal(this.motion.y, 0)
+            ? this.y
+            : add(originalY, originalMotion.y)
     }
 
     /**
@@ -230,7 +269,7 @@ export default class Player {
      *
      * @returns The X and Y values of that point
      */
-    nextBlockEdge(): { x: number; y: number } {
+    nextBlockEdge(): { x: Fraction; y: Fraction } {
         const { x: nextX, y: nextY } = this.farthestInSameBlock()
 
         if (nextX === null && nextY === null) return { x: this.x, y: this.y }
@@ -240,13 +279,23 @@ export default class Player {
         if (nextY === null && nextX !== null) return { x: nextX, y: this.y }
 
         if (nextX !== null && nextY !== null) {
-            const xyRatio = Math.abs(this.motion.x / this.motion.y)
-            const distanceX = nextX - this.x
-            const distanceY = nextY - this.y
+            const xyRatio = chain(this.motion.x)
+                .divide(this.motion.y)
+                .abs()
+                .done() as Fraction
+            const distanceX = subtract(nextX, this.x)
+            const distanceY = subtract(nextY, this.y)
 
-            return Math.abs(distanceX) < Math.abs(distanceY) * xyRatio
-                ? { x: nextX, y: this.y + distanceX / xyRatio }
-                : { x: this.x + distanceY * xyRatio, y: nextY }
+            return abs(distanceX) <
+                chain(distanceY).abs().multiply(xyRatio).done()
+                ? {
+                      x: nextX,
+                      y: add(this.y, divide(distanceX, xyRatio) as Fraction),
+                  }
+                : {
+                      x: add(this.x, multiply(distanceY, xyRatio) as Fraction),
+                      y: nextY,
+                  }
         }
 
         throw 'Unreachable code'
@@ -256,8 +305,11 @@ export default class Player {
      * Gets the X value of the right part of the player
      * @returns The X value of that part
      */
-    right(): number {
-        return this.x + Player.WIDTH / 2 - 0.001
+    right(): Fraction {
+        return chain(this.x)
+            .add(fraction(Player.WIDTH / 2))
+            .subtract(fraction(0.001))
+            .done()
     }
 
     /**
@@ -265,8 +317,8 @@ export default class Player {
      * that is within the same block as the player
      * @returns The X value of the right block edge
      */
-    rightBlockEdge(): number {
-        return Math.floor(this.right()) + 0.999
+    rightBlockEdge(): Fraction {
+        return chain(this.right()).floor().add(fraction(0.999)).done()
     }
 
     /**
@@ -274,17 +326,20 @@ export default class Player {
      */
     tick(): void {
         if (this.world.ticks % 3 === 0)
-            this.motion.y = (this.motion.y - World.GRAVITY) * 0.98
+            this.motion.y = chain(this.motion.y)
+                .subtract(fraction(World.GRAVITY))
+                .multiply(0.98)
+                .done() as Fraction
 
         this.motion.x =
             keyboard.has('KeyA') && !keyboard.has('KeyD')
-                ? -Player.SPEED
+                ? unaryMinus(fraction(Player.SPEED))
                 : !keyboard.has('KeyA') && keyboard.has('KeyD')
-                ? Player.SPEED
-                : 0
+                ? fraction(Player.SPEED)
+                : fraction(0)
 
         if (keyboard.has('KeyW') && this.isBottomSolid())
-            this.motion.y = Player.JUMP_SPEED
+            this.motion.y = fraction(Player.JUMP_SPEED)
 
         this.move()
     }
@@ -293,8 +348,11 @@ export default class Player {
      * Gets the Y value of the top part of the player
      * @returns The Y value of that part
      */
-    top(): number {
-        return this.y + Player.HEIGHT - 0.001
+    top(): Fraction {
+        return chain(this.y)
+            .add(fraction(Player.HEIGHT))
+            .subtract(fraction(0.001))
+            .done()
     }
 
     /**
@@ -302,15 +360,15 @@ export default class Player {
      * that is within the same block as the player
      * @returns The Y value of the top block edge
      */
-    topBlockEdge(): number {
-        return Math.floor(this.top()) + 0.999
+    topBlockEdge(): Fraction {
+        return chain(this.top()).floor().add(fraction(0.999)).done()
     }
 
     /**
      * Updates the player's display
      */
     update(): void {
-        this.sprite.x = this.x * Block.SIZE
-        this.sprite.y = (World.HEIGHT - this.y) * Block.SIZE
+        this.sprite.x = number(this.x) * Block.SIZE
+        this.sprite.y = (World.HEIGHT - number(this.y)) * Block.SIZE
     }
 }

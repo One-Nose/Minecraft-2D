@@ -5,6 +5,7 @@ import Chunk from './chunk'
 import Row from './row'
 import { Container } from 'pixi.js'
 import { app } from 'graphics/app'
+import { Fraction, number } from 'mathjs'
 
 /**
  * Represents a single world
@@ -75,9 +76,10 @@ export default class World {
      * @param y The block's Y position
      * @returns The block
      */
-    getBlock(x: number, y: number): Block | undefined {
-        return this.chunks[Math.floor(x / Row.LENGTH)]?.rows[Math.floor(y)]
-            ?.blocks[Math.floor(x % Row.LENGTH)]
+    getBlock(x: number | Fraction, y: number | Fraction): Block | undefined {
+        return this.chunks[Math.floor(number(x) / Row.LENGTH)]?.rows[
+            Math.floor(number(y))
+        ]?.blocks[Math.floor(number(x) % Row.LENGTH)]
     }
 
     /**
