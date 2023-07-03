@@ -112,7 +112,7 @@ export default class Chunk {
         const thisX = this.backContainer.x
         const worldX = app.stage.pivot.x - app.screen.width / 2
         if (
-            worldX - Row.LENGTH * Block.SIZE <= thisX &&
+            worldX - Row.LENGTH * Block.SIZE - Block.ACTUAL_SIZE_3D <= thisX &&
             thisX <= worldX + app.screen.width
         ) {
             this.backContainer.visible = true
