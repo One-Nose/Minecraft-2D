@@ -14,7 +14,10 @@ export default class Player {
     /** A player's height */
     static HEIGHT = 1.8
 
-    /** The player's current motion vector in blocks/tick */
+    /** The amount of blocks the player walks in ~1/20 seconds */
+    static SPEED = 4.317 / 20
+
+    /** The player's current motion vector in (blocks / 3 ticks) */
     motion: { x: number; y: number }
 
     /** The player's sprite */
@@ -152,7 +155,7 @@ export default class Player {
     move(): void {
         const originalX = this.x
         const originalY = this.y
-        const originalMotion = this.motion
+        const originalMotion = { x: this.motion.x / 3, y: this.motion.y / 3 }
 
         while (
             Math.abs(this.x - originalX) <= Math.abs(originalMotion.x) &&
@@ -261,11 +264,12 @@ export default class Player {
     tick(): void {
         this.motion.x =
             keyboard.has('KeyA') && !keyboard.has('KeyD')
-                ? -0.1
+                ? -Player.SPEED
                 : !keyboard.has('KeyA') && keyboard.has('KeyD')
-                ? 0.1
+                ? Player.SPEED
                 : 0
-        this.motion.y = -0.1
+        if (this.world.ticks % 3 === 0)
+            this.motion.y = (this.motion.y - World.GRAVITY) * 0.98
         this.move()
     }
 

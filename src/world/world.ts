@@ -13,6 +13,9 @@ export default class World {
     /** The width of a world in chunks */
     static CHUNKS = 16
 
+    /** The gravity acceleration in (blocks / 3 ticks) */
+    static GRAVITY = 0.08
+
     /** The height of a world in blocks */
     static HEIGHT = 64
 
@@ -40,12 +43,16 @@ export default class World {
     /** The world's pseudo-random number generator */
     prng: PRNG
 
+    /** The amount of ticks since the ticker started */
+    ticks: number
+
     /**
      * @param app The application in which to display the world
      */
     constructor() {
         this.isLoaded = false
         this.prng = new PRNG()
+        this.ticks = 0
 
         this.backContainer = new Container()
         this.playerContainer = new Container()
@@ -89,6 +96,7 @@ export default class World {
     tick(): void {
         this.player.tick()
         this.update()
+        this.ticks++
     }
 
     /**
