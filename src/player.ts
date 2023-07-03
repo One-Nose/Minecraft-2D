@@ -325,11 +325,15 @@ export default class Player {
      * Runs every tick
      */
     tick(): void {
-        if (this.world.ticks % 3 === 0)
+        if (this.world.ticks % 3 === 0) {
             this.motion.y = chain(this.motion.y)
                 .subtract(fraction(World.GRAVITY))
                 .multiply(0.98)
                 .done() as Fraction
+
+            if (keyboard.has('KeyW') && this.isBottomSolid())
+                this.motion.y = fraction(Player.JUMP_SPEED)
+        }
 
         this.motion.x =
             keyboard.has('KeyA') && !keyboard.has('KeyD')
@@ -337,9 +341,6 @@ export default class Player {
                 : !keyboard.has('KeyA') && keyboard.has('KeyD')
                 ? fraction(Player.SPEED)
                 : fraction(0)
-
-        if (keyboard.has('KeyW') && this.isBottomSolid())
-            this.motion.y = fraction(Player.JUMP_SPEED)
 
         this.move()
     }
