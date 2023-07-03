@@ -14,6 +14,9 @@ export default class Player {
     /** A player's height */
     static HEIGHT = 1.8
 
+    /** The player's initial velocity when jumping */
+    static JUMP_SPEED = 0.418
+
     /** The amount of blocks the player walks in ~1/20 seconds */
     static SPEED = 4.317 / 20
 
@@ -270,14 +273,19 @@ export default class Player {
      * Runs every tick
      */
     tick(): void {
+        if (this.world.ticks % 3 === 0)
+            this.motion.y = (this.motion.y - World.GRAVITY) * 0.98
+
         this.motion.x =
             keyboard.has('KeyA') && !keyboard.has('KeyD')
                 ? -Player.SPEED
                 : !keyboard.has('KeyA') && keyboard.has('KeyD')
                 ? Player.SPEED
                 : 0
-        if (this.world.ticks % 3 === 0)
-            this.motion.y = (this.motion.y - World.GRAVITY) * 0.98
+
+        if (keyboard.has('KeyW') && this.isBottomSolid())
+            this.motion.y = Player.JUMP_SPEED
+
         this.move()
     }
 
