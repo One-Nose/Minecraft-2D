@@ -331,7 +331,10 @@ export default class Player {
                 .multiply(0.98)
                 .done() as Fraction
 
-            if (keyboard.has('KeyW') && this.isBottomSolid())
+            if (
+                (keyboard.has('KeyW') || keyboard.has('Space')) &&
+                this.isBottomSolid()
+            )
                 this.motion.y = fraction(Player.JUMP_SPEED)
         }
 
