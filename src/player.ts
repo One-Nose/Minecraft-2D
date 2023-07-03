@@ -16,6 +16,7 @@ import {
     unaryMinus,
     number,
     unequal,
+    round,
 } from 'mathjs'
 import Block from 'world/block'
 import World from 'world/world'
@@ -101,7 +102,7 @@ export default class Player {
                 : larger(this.motion.x, 0)
                 ? chain(this.rightBlockEdge())
                       .subtract(fraction(Player.WIDTH / 2))
-                      .add(fraction(0.001))
+                      .add(fraction(0.00001))
                       .done()
                 : add(this.leftBlockEdge(), fraction(Player.WIDTH / 2)),
             y: equal(this.motion.y, 0)
@@ -109,7 +110,7 @@ export default class Player {
                 : larger(this.motion.y, 0)
                 ? chain(this.topBlockEdge())
                       .subtract(fraction(Player.HEIGHT))
-                      .add(fraction(0.001))
+                      .add(fraction(0.00001))
                       .done()
                 : this.bottomBlockEdge(),
         }
@@ -121,7 +122,7 @@ export default class Player {
      */
     isBottomSolid(): boolean {
         const rightX = this.right()
-        const blockY = subtract(this.bottom(), fraction(0.001))
+        const blockY = subtract(this.bottom(), fraction(0.00001))
 
         let blockX = floor(this.left())
         while (blockX <= rightX) {
@@ -137,7 +138,7 @@ export default class Player {
      */
     isLeftSolid(): boolean {
         const topY = this.top()
-        const blockX = subtract(this.left(), fraction(0.001))
+        const blockX = subtract(this.left(), fraction(0.00001))
 
         let blockY = floor(this.bottom())
         while (blockY <= topY) {
@@ -153,7 +154,7 @@ export default class Player {
      */
     isRightSolid(): boolean {
         const topY = this.top()
-        const blockX = add(this.right(), fraction(0.001))
+        const blockX = add(this.right(), fraction(0.00001))
 
         let blockY = floor(this.bottom())
         while (blockY <= topY) {
@@ -169,7 +170,7 @@ export default class Player {
      */
     isTopSolid(): boolean {
         const rightX = this.right()
-        const blockY = add(this.top(), fraction(0.001))
+        const blockY = add(this.top(), fraction(0.00001))
 
         let blockX = floor(this.left())
         while (blockX <= rightX) {
@@ -237,7 +238,7 @@ export default class Player {
                     this.x,
                     chain(this.motion.x)
                         .sign()
-                        .multiply(0.001)
+                        .multiply(0.00001)
                         .done() as Fraction
                 )
 
@@ -247,7 +248,7 @@ export default class Player {
                     this.y,
                     chain(this.motion.y)
                         .sign()
-                        .multiply(0.001)
+                        .multiply(0.00001)
                         .done() as Fraction
                 )
 
@@ -304,7 +305,7 @@ export default class Player {
     right(): Fraction {
         return chain(this.x)
             .add(fraction(Player.WIDTH / 2))
-            .subtract(fraction(0.001))
+            .subtract(fraction(0.00001))
             .done()
     }
 
@@ -314,7 +315,7 @@ export default class Player {
      * @returns The X value of the right block edge
      */
     rightBlockEdge(): Fraction {
-        return chain(this.right()).floor().add(fraction(0.999)).done()
+        return chain(this.right()).floor().add(fraction(0.99999)).done()
     }
 
     /**
@@ -341,6 +342,8 @@ export default class Player {
                 ? fraction(Player.SPEED)
                 : fraction(0)
 
+        this.motion.x = round(this.motion.x, 5)
+        this.motion.y = round(this.motion.y, 5)
         this.move()
     }
 
@@ -351,7 +354,7 @@ export default class Player {
     top(): Fraction {
         return chain(this.y)
             .add(fraction(Player.HEIGHT))
-            .subtract(fraction(0.001))
+            .subtract(fraction(0.00001))
             .done()
     }
 
@@ -361,7 +364,7 @@ export default class Player {
      * @returns The Y value of the top block edge
      */
     topBlockEdge(): Fraction {
-        return chain(this.top()).floor().add(fraction(0.999)).done()
+        return chain(this.top()).floor().add(fraction(0.99999)).done()
     }
 
     /**
