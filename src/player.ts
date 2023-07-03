@@ -8,14 +8,14 @@ import World from 'world/world'
  * Represents a player
  */
 export default class Player {
-    /** A player's width */
-    static WIDTH = 0.6
-
     /** A player's height */
     static HEIGHT = 1.8
 
     /** The player's initial velocity when jumping */
     static JUMP_SPEED = 0.418
+
+    /** A player's width */
+    static WIDTH = 0.6
 
     /** The amount of blocks the player walks in ~1/20 seconds */
     static SPEED = 4.317 / 20
@@ -69,6 +69,30 @@ export default class Player {
      */
     bottomBlockEdge(): number {
         return Math.floor(this.bottom())
+    }
+
+    /**
+     * Gets the X value of the farthest point the player can reach horizontally
+     * and the Y value of the farthest point the player can reach vertically
+     * in the direction of their motion, while remaining in the same block
+     *
+     * @returns The X and Y values of the two points
+     */
+    farthestInSameBlock(): { x: number | null; y: number | null } {
+        return {
+            x:
+                this.motion.x === 0
+                    ? null
+                    : this.motion.x > 0
+                    ? this.rightBlockEdge() - Player.WIDTH / 2 + 0.001
+                    : this.leftBlockEdge() + Player.WIDTH / 2,
+            y:
+                this.motion.y === 0
+                    ? null
+                    : this.motion.y > 0
+                    ? this.topBlockEdge() - Player.HEIGHT + 0.001
+                    : this.bottomBlockEdge(),
+        }
     }
 
     /**
@@ -226,30 +250,6 @@ export default class Player {
         }
 
         throw 'Unreachable code'
-    }
-
-    /**
-     * Gets the X value of the farthest point the player can reach horizontally
-     * and the Y value of the farthest point the player can reach vertically
-     * in the direction of their motion, while remaining in the same block
-     *
-     * @returns The X and Y values of the two points
-     */
-    farthestInSameBlock(): { x: number | null; y: number | null } {
-        return {
-            x:
-                this.motion.x === 0
-                    ? null
-                    : this.motion.x > 0
-                    ? this.rightBlockEdge() - Player.WIDTH / 2 + 0.001
-                    : this.leftBlockEdge() + Player.WIDTH / 2,
-            y:
-                this.motion.y === 0
-                    ? null
-                    : this.motion.y > 0
-                    ? this.topBlockEdge() - Player.HEIGHT + 0.001
-                    : this.bottomBlockEdge(),
-        }
     }
 
     /**
