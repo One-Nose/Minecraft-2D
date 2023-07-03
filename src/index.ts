@@ -6,6 +6,7 @@ import { registerBlock } from 'blockRegistry'
 import { SCALE_MODES } from 'pixi.js'
 import Block from 'world/block'
 import Player from 'player'
+import * as math from 'mathjs'
 
 declare global {
     var MC: { [name: string]: object }
@@ -32,5 +33,5 @@ declare global {
     world.load()
     setWorld(world)
 
-    globalThis.MC = { app, textures, PIXI, world, keyboard }
+    globalThis.MC = { app, textures, PIXI, world, keyboard, math }
 })()
