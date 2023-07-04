@@ -98,6 +98,21 @@ export default class Block {
         this.maskSide.y = this.front.y
         this.maskSide.anchor.y = 1
         this.maskSide.width = this.maskSide.height = Block.ACTUAL_SIZE_3D / 2
+
+        const destroy = this.destroy.bind(this)
+        this.front.on('pointerdown', destroy)
+        this.top.on('pointerdown', destroy)
+        this.side.on('pointerdown', destroy)
+        this.front.eventMode = 'static'
+        this.top.eventMode = 'static'
+        this.side.eventMode = 'static'
+    }
+
+    /**
+     * Destroys the block by replacing it with air
+     */
+    destroy(): void {
+        this.setBlock('air')
     }
 
     /**
@@ -192,6 +207,16 @@ export default class Block {
             this.foreSide.texture = Texture.EMPTY
             this.maskBottom.texture = Texture.EMPTY
             this.maskSide.texture = Texture.EMPTY
+
+            if (this.row.y === this.row.chunk.heights[this.x]) {
+                while (
+                    this.row.chunk.heights[this.x] > 0 &&
+                    !this.row.chunk.rows[this.row.chunk.heights[this.x]].blocks[
+                        this.x
+                    ].block.isSolid
+                )
+                    this.row.chunk.heights[this.x]--
+            }
         }
     }
 }
