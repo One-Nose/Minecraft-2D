@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack build",
+    "build": "webpack build --mode production",
     "serve": "webpack serve",
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "webpack watch"
