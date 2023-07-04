@@ -133,9 +133,11 @@ export default class Block {
             this.side.tint = this.foreSide.tint = 0xcccccc
 
             if (this.isDark) {
-                this.front.tint -= 0x444444
-                this.top.tint = this.foreTop.tint -= 0x444444
-                this.side.tint = this.foreSide.tint -= 0x444444
+                this.front.tint = Number(this.front.tint) - 0x444444
+                this.top.tint = this.foreTop.tint =
+                    Number(this.top.tint) - 0x444444
+                this.side.tint = this.foreSide.tint =
+                    Number(this.side.tint) - 0x444444
             }
 
             this.top.visible =
@@ -143,6 +145,7 @@ export default class Block {
                 this.maskSide.visible =
                     !this.row.chunk.rows[this.row.y + 1]?.blocks[this.x]?.block
                         .isSolid
+
             this.side.visible =
                 this.foreSide.visible =
                 this.maskBottom.visible =
