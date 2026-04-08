@@ -9,7 +9,7 @@ export const blockRegistry: { [id: string]: BlockRegistry } = {}
  */
 interface BlockRegistryOptions {
     /**
-     * Whether the block is visible
+     * Whether the block is solid and visible
      * @default true
      */
     isSolid?: boolean
