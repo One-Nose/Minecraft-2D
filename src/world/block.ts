@@ -16,7 +16,7 @@ export default class Block {
     /** The length of the shrinking effect on the top and side of the block */
     static SIZE_3D = Block.SIZE / 2
 
-    /** The actaul length of the top and side of the block */
+    /** The actual length of the top and side of the block */
     static ACTUAL_SIZE_3D = Block.SIZE_3D * Math.cos(Block.SKEW)
 
     /** The block registry */
