@@ -1,5 +1,5 @@
-import { textures } from 'graphics/assets'
 import { Texture } from 'pixi.js'
+import { textures } from '~/graphics/assets'
 
 /** Contains all block types in the game */
 export const blockRegistry: { [id: string]: BlockRegistry } = {}

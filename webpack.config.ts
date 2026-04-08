@@ -1,20 +1,25 @@
-import { resolve } from 'path'
+import { dirname, resolve } from 'path'
+import { fileURLToPath } from 'url'
+import webpack from 'webpack'
 
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 
-export default {
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+
+const config: webpack.Configuration = {
     devtool: 'eval-source-map',
     entry: './src/index.ts',
     mode: 'development',
     module: {
         rules: [
             {
-                test: /\.tsx?$/i,
+                test: /\.ts$/,
                 loader: 'ts-loader',
                 exclude: /node_modules/,
             },
             {
-                test: /\.png$/i,
+                test: /\.png$/,
                 type: 'asset/resource',
             },
         ],
@@ -22,7 +27,7 @@ export default {
     output: {
         clean: true,
         path: resolve(__dirname, 'dist'),
-        filename: 'main.js',
+        filename: 'index.js',
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -30,7 +35,9 @@ export default {
         }),
     ],
     resolve: {
-        extensions: ['.js', '.ts', '.tsx'],
-        modules: [resolve(__dirname, 'src'), 'node_modules'],
+        extensions: ['.ts', '.js'],
+        tsconfig: resolve(__dirname, 'tsconfig.json'),
     },
 }
+
+export default config

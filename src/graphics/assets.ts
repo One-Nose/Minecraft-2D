@@ -1,7 +1,7 @@
-import { Assets, Texture } from 'pixi.js'
-import GrassBlock from 'assets/grass_block.png'
-import Stone from 'assets/stone.png'
-import Steve from 'assets/steve.png'
+import { Assets, Texture, TextureSource } from 'pixi.js'
+import GrassBlock from '~/assets/grass_block.png'
+import Steve from '~/assets/steve.png'
+import Stone from '~/assets/stone.png'
 
 /**
  * Loads all assets asynchronously
@@ -14,11 +14,11 @@ export async function initAssets(): Promise<void> {
                 {
                     name: 'blocks',
                     assets: [
-                        { name: 'stone', srcs: Stone },
-                        { name: 'grass_block', srcs: GrassBlock },
+                        { alias: 'stone', src: Stone },
+                        { alias: 'grass_block', src: GrassBlock },
                     ],
                 },
-                { name: 'player', assets: [{ name: 'steve', srcs: Steve }] },
+                { name: 'player', assets: [{ alias: 'steve', src: Steve }] },
             ],
         },
     })
@@ -35,12 +35,13 @@ interface Bundle {
  */
 export async function loadBundle(
     bundle: string,
-    transform?: (texture: Texture) => void
+    transform?: (textureSource: TextureSource) => void
 ): Promise<void> {
     const loadedBundle: Bundle = await Assets.loadBundle(bundle)
     if (transform !== undefined) {
         for (const texture in loadedBundle) {
-            transform(loadedBundle[texture])
+            transform(loadedBundle[texture].source)
+            loadedBundle[texture].source.update()
         }
     }
     textures[bundle] = loadedBundle

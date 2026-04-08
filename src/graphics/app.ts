@@ -1,5 +1,5 @@
-import { Application } from 'pixi.js'
-import World from 'world/world'
+import { Application, Renderer } from 'pixi.js'
+import World from '~/world/world'
 
 let world: World | null = null
 
@@ -14,19 +14,27 @@ export function setWorld(chosenWorld: World): void {
 const canvas = document.getElementById('game') as HTMLCanvasElement
 
 /** The main graphics application */
-export const app: Application<HTMLCanvasElement> = new Application({
-    backgroundColor: 0x78a7ff,
-    resizeTo: canvas,
-    view: canvas,
-})
+export const app: Application<Renderer<HTMLCanvasElement>> = new Application()
 
-addEventListener('resize', () => {
-    setTimeout(() => {
-        app.stage.x = app.screen.width / 2
-        app.stage.y = app.screen.height * 0.7
+export async function initApp(): Promise<void> {
+    await app.init({
+        backgroundColor: 0x78a7ff,
+        resizeTo: canvas,
+        canvas: canvas,
     })
-})
-dispatchEvent(new Event('resize'))
+
+    addEventListener('resize', () => {
+        setTimeout(() => {
+            app.stage.x = app.screen.width / 2
+            app.stage.y = app.screen.height * 0.7
+        })
+    })
+    dispatchEvent(new Event('resize'))
+
+    app.ticker.add(() => {
+        if (world !== null) world.tick()
+    })
+}
 
 /** Contains the key codes of all the currently pressed keys */
 export const keyboard: Set<string> = new Set()
@@ -35,8 +43,4 @@ addEventListener('keydown', (event) => {
 })
 addEventListener('keyup', (event) => {
     keyboard.delete(event.code)
-})
-
-app.ticker.add(() => {
-    if (world !== null) world.tick()
 })

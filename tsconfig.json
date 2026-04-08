@@ -1,17 +1,21 @@
 {
     "compilerOptions": {
         "allowJs": true,
-        "allowSyntheticDefaultImports": true,
-        "baseUrl": "./src/",
-        "esModuleInterop": true,
-        "module": "CommonJS",
-        "moduleDetection": "force",
-        "moduleResolution": "node",
-        "noImplicitAny": true,
-        "noImplicitReturns": true,
+        "module": "esnext",
+        "moduleResolution": "bundler",
         "outDir": "./dist/",
+        "paths": {
+            "~/*": [
+                "./src/*"
+            ]
+        },
+        "rootDir": "./src/",
         "sourceMap": true,
         "strict": true,
-        "target": "ES2020"
-    }
+        "target": "es6"
+    },
+    "include": [
+        "./src/**/*",
+        "declare.d.ts"
+    ]
 }

@@ -1,5 +1,3 @@
-import { keyboard } from 'graphics/app'
-import { textures } from 'graphics/assets'
 import { Sprite } from 'pixi.js'
 import {
     chain,
@@ -18,8 +16,10 @@ import {
     unequal,
     round,
 } from 'mathjs'
-import Block from 'world/block'
-import World from 'world/world'
+import { keyboard } from '~/graphics/app'
+import { textures } from '~/graphics/assets'
+import Block from '~/world/block'
+import World from '~/world/world'
 
 /**
  * Represents a player
@@ -105,19 +105,19 @@ export default class Player {
             x: equal(this.motion.x, 0)
                 ? null
                 : larger(this.motion.x, 0)
-                ? chain(this.rightBlockEdge())
-                      .subtract(fraction(Player.WIDTH / 2))
-                      .add(fraction(0.00001))
-                      .done()
-                : add(this.leftBlockEdge(), fraction(Player.WIDTH / 2)),
+                    ? chain(this.rightBlockEdge())
+                        .subtract(fraction(Player.WIDTH / 2))
+                        .add(fraction(0.00001))
+                        .done()
+                    : add(this.leftBlockEdge(), fraction(Player.WIDTH / 2)),
             y: equal(this.motion.y, 0)
                 ? null
                 : larger(this.motion.y, 0)
-                ? chain(this.topBlockEdge())
-                      .subtract(fraction(Player.HEIGHT))
-                      .add(fraction(0.00001))
-                      .done()
-                : this.bottomBlockEdge(),
+                    ? chain(this.topBlockEdge())
+                        .subtract(fraction(Player.HEIGHT))
+                        .add(fraction(0.00001))
+                        .done()
+                    : this.bottomBlockEdge(),
         }
     }
 
@@ -228,14 +228,14 @@ export default class Player {
             const isXSolid = equal(this.motion.x, 0)
                 ? false
                 : larger(this.motion.x, 0)
-                ? this.isRightSolid()
-                : this.isLeftSolid()
+                    ? this.isRightSolid()
+                    : this.isLeftSolid()
 
             const isYSolid = equal(this.motion.y, 0)
                 ? false
                 : larger(this.motion.y, 0)
-                ? this.isTopSolid()
-                : this.isBottomSolid()
+                    ? this.isTopSolid()
+                    : this.isBottomSolid()
 
             if (isXSolid) this.motion.x = fraction(0)
             else if (unequal(this.motion.x, 0))
@@ -258,7 +258,8 @@ export default class Player {
                 )
 
             if (equal(this.motion.x, 0) && equal(this.motion.y, 0)) return
-            ;({ x: this.x, y: this.y } = this.nextBlockEdge())
+
+                ; ({ x: this.x, y: this.y } = this.nextBlockEdge())
         }
 
         this.x = equal(this.motion.x, 0)
@@ -291,13 +292,13 @@ export default class Player {
 
             return abs(distanceX) < abs(multiply(distanceY, xyRatio))
                 ? {
-                      x: nextX,
-                      y: add(this.y, divide(distanceX, xyRatio) as Fraction),
-                  }
+                    x: nextX,
+                    y: add(this.y, divide(distanceX, xyRatio) as Fraction),
+                }
                 : {
-                      x: add(this.x, multiply(distanceY, xyRatio) as Fraction),
-                      y: nextY,
-                  }
+                    x: add(this.x, multiply(distanceY, xyRatio) as Fraction),
+                    y: nextY,
+                }
         }
 
         throw 'Unreachable code'
@@ -344,8 +345,8 @@ export default class Player {
             keyboard.has('KeyA') && !keyboard.has('KeyD')
                 ? unaryMinus(fraction(Player.SPEED))
                 : !keyboard.has('KeyA') && keyboard.has('KeyD')
-                ? fraction(Player.SPEED)
-                : fraction(0)
+                    ? fraction(Player.SPEED)
+                    : fraction(0)
 
         if (
             (keyboard.has('KeyW') || keyboard.has('Space')) &&

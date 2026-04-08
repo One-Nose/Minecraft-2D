@@ -1,11 +1,11 @@
-import Player from 'player'
-import PRNG from 'prng'
+import { Container } from 'pixi.js'
+import { Fraction, number } from 'mathjs'
+import { app } from '~/graphics/app'
+import Player from '~/player'
+import PRNG from '~/prng'
 import Block from './block'
 import Chunk from './chunk'
 import Row from './row'
-import { Container } from 'pixi.js'
-import { app } from 'graphics/app'
-import { Fraction, number } from 'mathjs'
 
 /**
  * Represents a single world

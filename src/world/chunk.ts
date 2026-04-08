@@ -1,9 +1,9 @@
 import { Container } from 'pixi.js'
+import { app } from '~/graphics/app'
+import PRNG from '~/prng'
+import Block from './block'
 import Row from './row'
 import World from './world'
-import PRNG from 'prng'
-import { app } from 'graphics/app'
-import Block from './block'
 
 /**
  * Represents a single chunk consisting of 16x64 blocks

@@ -1,4 +1,4 @@
-import PRNG from 'prng'
+import PRNG from '~/prng'
 import Block from './block'
 import Chunk from './chunk'
 

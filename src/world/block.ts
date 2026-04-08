@@ -1,5 +1,5 @@
-import { BlockRegistry, blockRegistry } from 'blockRegistry'
 import { Sprite, Texture } from 'pixi.js'
+import { BlockRegistry, blockRegistry } from '~/blockRegistry'
 import Row from './row'
 import World from './world'
 
@@ -158,13 +158,13 @@ export default class Block {
             this.top.visible =
                 this.foreTop.visible =
                 this.maskSide.visible =
-                    !this.row.chunk.rows[this.row.y + 1]?.blocks[this.x]?.block
-                        .isSolid
+                !this.row.chunk.rows[this.row.y + 1]?.blocks[this.x]?.block
+                    .isSolid
 
             this.side.visible =
                 this.foreSide.visible =
                 this.maskBottom.visible =
-                    !this.row.blocks[this.x + 1]?.block.isSolid
+                !this.row.blocks[this.x + 1]?.block.isSolid
         }
     }
 
